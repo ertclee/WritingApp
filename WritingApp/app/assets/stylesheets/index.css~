@@ -1,0 +1,6 @@
+div{
+    display: block;
+    background-color: grey;
+    color: yellow;
+    
+}
