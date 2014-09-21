@@ -1,0 +1,72 @@
+.signup-image {
+	width: 25%;
+}
+
+.signup-button { 
+	font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+	border-radius: 10px;
+	width: 330px;
+	border: #fbfbfb solid 4px;
+	cursor: pointer;
+	background-color: #3498db;
+	color: white;
+	font-size: 24px;
+	padding-top: 12px;
+	padding-bottom: 12px;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+  	margin-top: -4px;
+    font-weight: 700;
+}
+
+.signup-button:hover { 
+	background: #7EB0EB;
+	cursor: pointer;
+}
+
+.account-login { 
+	font-size: 15px;
+	padding: 0 35px 0 35px;
+}
+
+.parsley-errors-list {
+	color: red;
+}
+
+.hidden { 
+	display: none;
+}
+
+.center-align { 
+	text-align: center;
+}
+
+.great-job { 
+	font-family: PTMono-Bold;
+	font-size: 24px;
+	color: #242424;
+	&.center-align { 
+		text-align: center;
+	}
+}
+
+#great-job-message { 
+	margin-top: 50px;
+	margin-bottom: 50px;
+	width: 120%;
+	font-size: 15px;
+}
+
+.email-uniqueness-error-message { 
+	color: #b92219;
+	border-color: #e4a197;
+	//background-color: #ffd1d1;
+	font-size: 12px;
+	padding: .83333333rem 1.16666667rem .5rem;
+	line-height: 15px
+}
+
+#error_explanation { 
+	margin-top: -3px;
+}

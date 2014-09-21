@@ -1,0 +1,109 @@
+<%= form_for([@challenge, @response], :html => { :method => :put }) do |f| %>
+  <% if @challenge.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@challenge.errors.count, "error") %> prohibited this prompt from being saved:</h2>
+
+      <ul>
+      <% @challenge.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="response-field">
+    <% if @response.response %>
+      <%= f.text_area :response, :value => @response.response, :autofocus => true %>
+    <% else %> 
+      <%= f.text_area :response, :placeholder => "Start typing Here...", :autofocus => true %>
+    <% end %>
+  </div>
+  <br />
+  <div class="actions hidden">
+    <% if @response.response %>
+      <%= button_tag(type: 'submit', class: "ladda-button", 'data-style' => "zoom-out", :style=> "font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+        border-radius: 10px;
+        width: 300px;
+        border: #fbfbfb solid 4px;
+        cursor:pointer;
+        background-color: #3498db;
+        color:white;
+        font-size:24px;
+       
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        transition: all 0.3s;
+          margin-top:-4px;
+          font-weight:100;") do %>
+        <span class="ladda-label">Update</span>
+      <% end %>
+    
+    <% else %>
+      <%= button_tag(type: 'submit', class: "ladda-button", 'data-style' => "zoom-out", :style=> "font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+        border-radius: 10px;
+        width: 300px;
+        border: #fbfbfb solid 4px;
+        cursor:pointer;
+        background-color: #3498db;
+        color:white;
+        font-size:24px;
+        padding-top:8px;
+        padding-bottom:8px;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        transition: all 0.3s;
+          margin-top:-4px;
+          font-weight:100;") do %>
+        <span class="ladda-label">Complete</span>
+      <% end %>
+    
+    <% end %>
+    <div class="ease"></div>
+  </div>
+
+<% end %>
+
+<div class="bottom-banner-container">
+    <div class="bottom-banner">
+      <%= link_to "Learn more about the project" %>
+    </div>
+</div>
+<p id="copyright">© WritersMob, 2014</p>
+
+<%=javascript_include_tag "ladda.min.js", "spin.min.js" %>
+<script>
+
+  $(document).ready(function() { 
+    Ladda.bind( '.ladda-button');
+    
+    $('#response_response').each(function() {
+        var input = '#' + this.id;
+        var count = input + '_count';
+        $(count).show();
+        word_count(input, count);
+        $(this).keyup(function() { 
+          word_count(input, count) 
+        });
+    });
+  });
+
+  function word_count(field, count) {
+      var number = 0;
+      console.log($(field).val())
+      var matches = $(field).val().match(/\S+/g);
+      if (matches) {
+        number = matches.length;
+      } else { 
+        number = 0;
+      }
+      if (number > 2) {
+        $(".actions").removeClass("hidden");
+        $(".actions").addClass('shown');
+      } else { 
+        $(".actions").removeClass("shown");
+        $(".actions").addClass('hidden');
+      }
+
+      $(count).text( number + ' word' + (number != 1 ? 's' : '') + ' written so far');
+
+  };
+</script>

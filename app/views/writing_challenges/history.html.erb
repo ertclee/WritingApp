@@ -1,0 +1,132 @@
+<div class="container-header">
+	<div class="container">
+		<h1 id="writersmob">WritersMob</h1>
+		<ul class="menu">
+			
+			<li><a href="/history" id="history">History</a>
+			</li>		
+		</ul>
+		<div class="right-menu">
+			<%= render 'devise/menu/login_items' %>
+		</div>
+	</div>
+</div>
+<div style="max-width: 1165px; margin: 10px auto; position: relative; padding: 10px 10px 0 10px;">
+<table id="exercise-list" style="margin-left: 153px;">
+		<tbody class="page">
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <div id="container" style="margin: 0; display: inline-block; margin-bottom: 35px;"></div>
+      <span id="date-today"><%=Date::MONTHNAMES[@start_date.month] %> '<%=@yy%></span>
+      <div id="words-since-signup">
+        <%= @word_count_since_signup %> 
+        <span id="words-since-letters">
+          Words Since <%=Date::MONTHNAMES[@start_date.month] %> '<%=@yy%>
+        </span>
+        <br />
+        <%= @total_of_month %>
+        <span id="words-this-month">
+          Words this month
+        </span>
+      </div>
+		  <%= render :partial => 'past_writing_challenges_i_completed', :locals => { :challenges => @challenges } %>
+	</tbody>
+</table>
+</div>
+
+<script>
+  
+  $(function () {
+      $('#container').highcharts({
+          chart: {
+              type: 'column',
+              height: 150,
+              width: 460,
+          },
+          title: {
+              align: 'right',
+              text: '',
+              style: {
+                      fontSize: '24px',
+                      fontFamily: 'Verdana, sans-serif',
+                      color: 'red'
+              }
+          },
+          subtitle: {
+              text: ''
+          },
+          xAxis: {
+              type: 'category',
+              labels: { 
+                enabled: false
+              },
+              minorTickLength: 0,
+              tickLength: 0,
+              max: <%= @max_value_for_xAxis %>,
+          },
+          yAxis: [{
+            min: 0,
+            showEmpty: false, 
+            lineWidth: 0,
+            minorGridLineWidth: 0,
+            gridLineColor: 'transparent',
+            labels: {
+                enabled: false
+            },
+            minorTickLength: 0,
+            tickLength: 0,
+            title: {
+              text: null
+            },
+            max: <%= raw current_user.target_goal %> + 5,
+            plotLines: [{
+                color: '#e8c1c1',
+                width: 2,
+                value: <%= raw current_user.target_goal %>, // Need to set this probably as a var.
+                label: { 
+                  text: <%= raw current_user.target_goal %> + ' words a day',
+                  align: 'right',
+                  x: -10,
+                  style: {
+                    color: '#e8c1c1',
+
+                  }
+                },
+                zIndex: 5
+            }]
+          }], 
+          plotOptions: { 
+            series: { 
+              color: '#4a90e2'
+            },
+          },
+
+          legend: {
+              enabled: false
+          },
+          tooltip: {
+                formatter: function() {
+                  var today = new Date();
+                  var mm = today.getMonth() + 1;
+                  var yyyy = today.getFullYear();
+                  today = mm + '/' + (parseInt(this.x) + 1) + '/' + yyyy; 
+                  return this.y + " words on " + today; 
+                },
+                backgroundColor: '#BFD8F5',
+                borderColor: '#BFD8F5',
+                shadow: false,
+              style: { 
+                color: '#fff', 
+              }
+          },
+          exporting: { enabled: false },
+          series: [{
+              name: 'Number of words',
+              data: <%= raw @daily_challenges %>,
+          }],
+          credits: { 
+            enabled: false
+          }
+      });
+  });
+</script>

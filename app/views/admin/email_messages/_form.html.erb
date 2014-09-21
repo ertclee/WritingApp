@@ -1,0 +1,8 @@
+<%= semantic_form_for [:admin, @email_message] do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :subject %>
+    <%= f.input :message %>
+    <%= f.input :deliver_at %>
+  <% end %>
+  <%= f.actions %>
+<% end %>

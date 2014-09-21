@@ -1,0 +1,43 @@
+<div class="border-form-div">
+	<p class="form-top-message">Resend confirmation instructions</p>
+
+	<%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post , novalidate: :novalidate}, data: {validate: 'parsley'}) do |f| %>
+		  
+	  <%= devise_error_messages! %>
+	  <div><%= f.label :email, :class => "ticker" %><br />
+	  <%= f.email_field :email, autofocus: true, required: true, "data-parsley-remote"=>true, "data-parsley-remote-validator"=> 'check-if-email-exists', "data-parsley-remote-options"=>'{ "type": "GET" }', 'data-parsley-remote-message' => '' %></div>
+	 <div><%= button_tag(type: 'submit', class: "ladda-button", 'data-style' => "zoom-out") do %>
+			<span class="ladda-label">Resend</span>
+	  <% end %></div>
+	<% end %>
+	<% if controller_name != 'sessions' %>
+	  <div id="margin-link"><%= link_to "Log in", new_session_path(resource_name), :class => "anchor-link grey" %></div><br />
+	<% end %>
+</div>
+
+<%=javascript_include_tag "ladda.min.js", "spin.min.js" %>
+
+<script>
+$( document ).ready(function() { 
+	Ladda.bind( '.ladda-button', { timeout: 4000 } );
+}); 
+
+$('[name="user[email]"]').parsley().addAsyncValidator(
+  'check-if-email-exists', function (xhr) {
+    var UserEmail = $('[name="user[email]"]').parsley();
+    window.ParsleyUI.removeError(UserEmail, "email");
+
+    if(xhr.status == '200')
+       return 200;
+    if(xhr.status == '422' || xhr.status == '404'){
+       window.ParsleyUI.addError(UserEmail, "email", xhr.responseText);
+       $('.parsley-remote').remove();
+       Ladda.stopAll();
+	}
+  }, "<%= check_if_email_confirmed_url%>");
+
+$('[name="user[email]"]').keyup(function() { 
+	var UserEmail = $('[name="user[email]"]').parsley();
+    window.ParsleyUI.removeError(UserEmail, "email");
+});
+</script>

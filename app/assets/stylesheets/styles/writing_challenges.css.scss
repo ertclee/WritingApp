@@ -1,0 +1,151 @@
+// Place all the styles related to the writingChallenges controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+$light-blue: #4A90E2;
+
+#writersmob { 
+	font-family: PTMono-Bold;
+	font-size: 24px;
+	color: #444444;
+	line-height: 27px;
+	margin-left: 153px;
+}
+
+#challenges { 
+	font-family: PTMono-Regular;
+	font-size: 18px;
+	color: #808080;
+	line-height: 36px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: 1px solid;
+	padding: 8px 10px 8px 10px;
+	text-decoration: none;
+}
+
+#history { 
+	font-family: PTMono-Regular;
+	font-size: 18px;
+	color: #808080;
+	line-height: 36px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: 1px solid;
+	padding: 8px 10px 8px 10px;
+	text-decoration: none;
+}
+
+#words-since-signup {
+	display: inline-block;
+	vertical-align: top; 
+	font-family: PTMono-Bold; 
+	font-size: 33px; 
+	color: #808080;
+	margin-top: 55px;
+}
+
+#words-since-letters { 
+	display: inline-block;
+	vertical-align:top; 
+	width: 137px; 
+	font-family: PTMono-Regular; 
+	color: #C9C9C9; 
+	font-size: 11px; 
+	margin-top: 7px;
+}
+
+#words-this-month { 
+	display: inline-block;
+	vertical-align:top; 
+	width: 97px; 
+	font-family: PTMono-Regular; 
+	color: #C9C9C9;  
+	margin-top: 9px; 
+	font-size: 11px
+}
+
+#date-today { 
+	position: absolute;
+	left: 164px;
+	top: 110px;
+	font-family: PTMono-Regular; 
+	color: #808080;
+	font-size: 25px;
+}
+
+.menu { 
+	font-family: "PT Mono", monospace;
+	font-size: 22px;
+	text-decoration: none;
+	position: absolute;
+	left: 342px;
+	top: 22px;
+	margin: 6px 0 0 0;
+	color: #bbb;
+}
+
+.right-menu {
+	position: absolute;
+	right: 118px;
+	top: 27px;
+	margin: 6px 0 0 0;
+	color: #bbb;
+}
+
+li { 
+	display: inline;
+	padding-right: 40px;
+}
+
+::-moz-selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+::selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+h1 {
+	font-family: PTMono-Bold;
+	font-size: 48px;
+	color: #444444;
+}
+
+h2 {
+	font-family: PTMono-Bold;
+	font-size: 24px;
+	color: #242424;
+}
+
+.fellow-writers { 
+	font-family: PTMono-Regular;
+	font-size: 18px;
+	color: $light-blue;
+}
+
+.container { 
+	margin: 10px auto;
+	position: relative;
+	padding: 10px 10px 0 10px;
+}
+
+.create-new-exercise { 
+	float: right;
+}
+
+.exercise { 
+	font-family: PTMono-Regular;
+	font-size: 20px;
+	color: $light-blue;
+	line-height: 32px;
+}
+
+.highcharts-container{
+	margin-left: 359px;
+	margin-right: 30px;
+}
+

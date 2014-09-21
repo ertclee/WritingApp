@@ -1,0 +1,8 @@
+<%= link_to 'Back to Home', writing_challenges_path %>
+<div class="border-form-div">
+	<p>Please, check your email for registration details.</p>
+	<br />
+	<% if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+	  <%= link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name), 'data-no-turbolink' => true %><br />
+	<% end %>
+</div>

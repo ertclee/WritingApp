@@ -1,0 +1,35 @@
+<div class="border-form-div">
+	<%= form_for(resource, as: resource_name, url: confirm_path, html: { novalidate: :novalidate}, data: {validate: 'parsley'}) do |f| %>
+
+		<%= devise_error_messages! %>
+		<p class="form-top-message">Complete your registration.</p>
+		<div><%= f.label :Your_Name, :class => "ticker" %><br />
+	    <%= f.text_field :name, autocomplete: "off", required: true  %></div>
+	    
+		<div><%= f.label :password, :class => "ticker" %><br />
+	    <%= f.password_field :password, autocomplete: "off", required: true %></div>
+	    
+	    <div><%= f.label :password_confirmation, :class => "ticker" %><br />
+	    <%= f.password_field :password_confirmation, autocomplete: "off",  required: true, 'data-parsley-equalto' => "#user_password" %></div>
+	    <div><%= f.hidden_field :confirmation_token, :value => @original_token %><br /></div>
+	    
+	    <%= button_tag(type: 'submit', class: "ladda-button", 'data-style' => "zoom-out") do %>
+			<span class="ladda-label" style="width: 100%">Confirm account</span>
+		<% end %>
+	    	
+	    
+	<% end %>
+</div>
+
+<%=javascript_include_tag "ladda.min.js", "spin.min.js" %>
+
+<script>
+$( document ).ready(function() { 
+	Ladda.bind( '.ladda-button', { timeout: 4000 });
+	$(".ladda-button").click(function() { 
+		if ($("[name='user[password]']").val() != $("[name='user[password_confirmation]']").val()) { 
+			Ladda.stopAll();
+		} 
+	});
+}); 
+</script>

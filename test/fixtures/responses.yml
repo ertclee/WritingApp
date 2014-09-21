@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  writer: MyString
+  exercise_name: MyText
+  exercise_id: MyString
+  response: MyText
+  writing_challenge_id: 
+  user_id: 
+
+two:
+  writer: MyString
+  exercise_name: MyText
+  exercise_id: MyString
+  response: MyText
+  writing_challenge_id: 
+  user_id: 

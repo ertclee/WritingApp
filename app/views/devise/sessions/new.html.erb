@@ -1,0 +1,74 @@
+<h1 class="writersmob-header">WritersMob</h1>
+<div class="border-form-div">
+	<p id="header-margin">Please log in</p>
+	<%= devise_error_messages! %>
+	<%= form_for(resource, as: resource_name, url: session_path(resource_name), data: {validate: 'parsley'}, html: {novalidate: :novalidate}) do |f| %>
+	  <div style="margin-top: 30px"><%= f.label :email, :class => "ticker" %><br />
+	  <%= f.email_field :email, autofocus: true, required: true, "data-parsley-remote" => true, 'data-parsley-trigger' => "change", "data-parsley-remote-validator"=> 'check-if-email-exists', "data-parsley-remote-options"=>'{ "type": "GET" }', 'data-parsley-remote-message' => ''%></div>
+
+	  <div><%= f.label :password, :class => "ticker" %><br />
+	    <%= f.password_field :password, autocomplete: "off", required: true, "data-parsley-remote"=>true, "data-parsley-remote-validator"=> 'password-correct', 'data-parsley-trigger' => "change", "data-parsley-remote-options"=>'{ "type": "GET" }', 'data-parsley-remote-message' => '' %></div>
+	 	<div>
+		  <%= button_tag(type: 'submit', class: "ladda-button", 'data-style' => "zoom-out") do %>
+				<span class="ladda-label">Log in</span>
+		  <% end %>
+		</div>
+	<% end %>
+	
+	<% if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+	  <div id="margin-link">
+	  	<%= link_to "Forgot your password?", new_user_password_path(resource_name), 'data-no-turbolink' => true, :class => "anchor-link grey" %><br />
+	  </div>
+	<% end %>
+
+	<% if devise_mapping.registerable? && controller_name != 'registrations' %>
+	  <div id="register-link">
+	  	<%= link_to "Register to become a better writer!", new_registration_path(resource_name), 'data-no-turbolink' => true, :class => "anchor-link blue" %><br />
+	  </div>
+	<% end %>
+</div>
+<%=javascript_include_tag "ladda.min.js", "spin.min.js" %>
+
+<script>
+$( document ).ready(function() { 
+	Ladda.bind( '.ladda-button' );
+}); 
+
+$('[name="user[email]"]').parsley().addAsyncValidator(
+  'check-if-email-exists', function (xhr) {
+	var UserEmail = $('[name="user[email]"]').parsley();
+	window.ParsleyUI.removeError(UserEmail, "email");
+	if(xhr.status == '200') {
+		return 200;
+	}
+	if(xhr.status == '422' || xhr.status == '404'){
+		window.ParsleyUI.addError(UserEmail, "email", xhr.responseText);
+		$('.parsley-remote').remove();
+		Ladda.stopAll();
+	}
+}, "<%= check_if_email_exists_url%>");
+
+$('[name="user[password]"]').parsley().addAsyncValidator(
+	'password-correct', function (xhr) {
+	var password = $('[name="user[password]"]').parsley();
+	var UserEmail = $('[name="user[email]"]').val();
+	window.ParsleyUI.removeError(password, "password");
+	if(xhr.status == '200')
+		return 200;
+	if(xhr.status == '422' || xhr.status == '404'){
+		window.ParsleyUI.addError(password, "password", xhr.responseText);
+		$('.parsley-remote').remove();
+		Ladda.stopAll();
+	}
+}, "<%= password_correct_url %>");
+
+$('[name="user[email]"]').keyup(function() { 
+	var UserEmail = $('[name="user[email]"]').parsley();
+    window.ParsleyUI.removeError(UserEmail, "email");
+});
+
+$('[name="user[password]"]').keyup(function() { 
+	var password = $('[name="user[password]"]').parsley();
+    window.ParsleyUI.removeError(password, "password");
+});
+</script>

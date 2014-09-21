@@ -1,0 +1,32 @@
+.writersmob-header { 
+	text-align: center; 
+	font-family: PTMono-Bold; 
+	font-size: 42px;
+}
+
+.anchor-link { 
+	text-align: center; 
+	text-decoration: underline; 
+	&.grey {
+		font-size: 13px;
+		color: #808080;
+	}
+
+	&.blue {
+		color: #428bca;
+	}
+
+}
+
+.no-underline { 
+	text-decoration: none;
+}
+
+.full-width { 
+	width: 100%;
+}
+
+.form-top-message { 
+	font-size: 15px;
+	font-family: PTMono-regular;
+}

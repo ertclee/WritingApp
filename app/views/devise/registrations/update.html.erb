@@ -1,0 +1,88 @@
+<style>
+  .thumb {
+    height: 150px;
+    border-radius: 50%;
+    width: 150px;
+  }
+</style>
+
+<div class="container-header">
+	<div class="container">
+		<h1 id="writersmob">WritersMob</h1>
+		font-family: PTMono-Regular;
+			font-size: 18px;
+			position: absolute;
+			text-align: center;
+			top: 188px;
+			margin-left: 171px;
+			text-decoration: underline
+		<%= link_to 'Personal Profile', edit_profile_path %>
+		<div style="font-family: PTMono-Regular;
+			font-size: 18px;
+			color: #808080;
+			line-height: 36px;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			border: 1px solid;
+			padding: 8px 10px 8px 10px;
+			text-decoration: none;
+			width: 18%; 
+			position: absolute;
+			top: 117px;
+			text-align: center; margin-left: 153px;">
+			Account Settings
+		</div>
+		<ul class="menu" style="top: 23px">
+			<li><a href="/history">History</a>
+			</li>
+		</ul>
+	</div>
+	<div style="border-left: thick solid red">
+	</div>
+</div>
+
+<div class="center-div">
+	<%= form_for @user do |f| %>
+		
+	
+	<div style="text-align: center">
+		<div style="margin: auto;"><%= f.label :your_email, :style => "font-family: PTMono-Regular; color: #C9C9C9; margin-top: 20px; float: left" %></div>
+	 	<div><%= f.text_field :email, :value =>  @email, :style => "color: #808080; height: 39px; font-size: 20px; margin: 0 auto" %></div>
+	 </div>
+	 <br />
+	 
+	 <div style="text-align: center">
+		  <%= button_tag(type: 'submit', class: "ladda-button", 'data-style' => "zoom-out", :style=> "font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+				border-radius: 10px;
+				width: 100%;
+				border: #fbfbfb solid 4px;
+				cursor:pointer;
+				background-color: #3498db;
+				color:white;
+				font-size:24px;
+				padding-top:8px;
+				padding-bottom:8px;
+				-webkit-transition: all 0.3s;
+				-moz-transition: all 0.3s;
+				transition: all 0.3s;
+			  	margin-top:-4px;
+			    font-weight:100;") do %>
+				<span class="ladda-label">Save changes</span>
+		  <% end %>
+	 	
+	<% end %>
+	
+</div>
+<%=javascript_include_tag "ladda.min.js", "spin.min.js" %>
+
+<script>
+	$(document).ready(function() { 
+		Ladda.bind( '.ladda-button' );
+		
+	});
+	$(".avatar_image").click(function(e) {
+	    $("input[id='profile_photo']").click();
+	    e.preventDefault();
+	});
+</script>

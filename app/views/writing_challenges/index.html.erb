@@ -1,0 +1,24 @@
+<div class="container-header">
+	<div class="container">
+		<h1 id="writersmob">WritersMob</h1>
+		<ul class="menu">
+			<li><a href="/history">History</a>
+			</li>
+		</ul>
+		<div class="right-menu">
+			<%= render 'devise/menu/login_items' %>
+			<%= link_to "Add a new exercise", new_writing_challenge_path, :class => 'create-new-exercise' %>
+		</div>
+	</div>
+</div>
+<div style="max-width: 1165px; margin: 10px auto; position: relative; padding: 10px 10px 0 10px;">
+<table id="exercise-list">
+	<thead>
+		
+	</thead>
+	<tbody class="page">
+		<%= render :partial => 'shared/writing_challenges', :locals => { :challenges => @challenges } %>
+	</tbody>
+</table>
+</div>
+<%= link_to 'Load More Posts', writing_challenges_path(:page => @challenges.next_page), :class => 'load-more-posts', :remote => true if @challenges.next_page %>

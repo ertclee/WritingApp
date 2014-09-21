@@ -1,0 +1,7 @@
+
+$("#exercise-list").append('#{escape_javascript(render partial: "shared/writing_challenges", :locals => { :challenges => @challenges })}');
+
+$('a.load-more-posts').attr('href', '#{writing_challenges_path page: @challenges.next_page}');
+
+- unless @challenges.next_page
+  $('a.load-more-posts').remove();

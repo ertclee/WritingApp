@@ -1,0 +1,66 @@
+{
+  chart: {
+      type: 'column'
+  },
+  title: {
+      align: 'right',
+      text: "<%=current_user.target_goal || 100%> words a day",
+      style: {
+              fontSize: '24px',
+              fontFamily: 'Verdana, sans-serif',
+              color: 'red'
+      }
+
+  },
+  subtitle: {
+      text: ''
+  },
+  xAxis: {
+      type: 'category',
+      labels: {
+          rotation: -45,
+          style: {
+              fontSize: '13px',
+              fontFamily: 'Verdana, sans-serif'
+          }
+      }
+  },
+  yAxis: {
+      min: 0,
+      title: {
+          rotation: 0,
+          text: "<%=@begining.beginning_of_month.strftime('%b-%y')%>",
+          style: {
+              fontSize: '24px',
+              fontFamily: 'Verdana, sans-serif'
+          }
+
+      }
+  },
+  legend: {
+      enabled: false
+  },
+  tooltip: {
+       formatter: function() {
+         return this.y;
+      }
+  },
+  exporting: { enabled: false },
+  series: [{
+      name: 'Number of words',
+      data: <%=raw @daily_challenges %>,
+      dataLabels: {
+          enabled: true,
+          rotation: -90,
+          color: '#FFFFFF',
+          align: 'right',
+          x: 4,
+          y: 10,
+          style: {
+              fontSize: '13px',
+              fontFamily: 'Verdana, sans-serif',
+              textShadow: '0 0 3px black'
+          }
+      }
+  }]
+}

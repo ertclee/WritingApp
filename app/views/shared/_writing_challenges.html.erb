@@ -1,0 +1,33 @@
+<!-- # <% challenges.each do |challenge| %>
+# 	<tr class="challenge">
+# 			<% if current_user %>
+# 				<td style="border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; padding: 14px; width: 850px;">
+# 				<% if current_user.responses.count == 0 %>
+# 					<%= link_to challenge.exercise, new_writing_challenge_response_path(challenge), :class => 'exercise', :style => "text-decoration: underline;" %></td>
+# 				<% else  %>
+# 					<% current_user.responses.each do |user_res| %>
+# 						<% if !user_res.response %>
+# 							enters!!
+# 							<%= link_to challenge.exercise, new_writing_challenge_response_path(challenge), :class => 'exercise', :style => "text-decoration: underline;" %></td>
+# 						<% else %>
+							
+# 							<% if challenge.responses.count == 0 %> 
+# 								enters!!!
+# 								<%= link_to challenge.exercise, new_writing_challenge_response_path(challenge), :class => 'exercise', :style => "text-decoration: underline;" %></td>
+# 							<% else %>
+# 								<% challenge.responses.each do |res| %> 
+# 									<% if res.writer && current_user %> 
+# 										<% if res.writer == current_user.name && res == user_res %>
+# 											<%= link_to challenge.exercise, edit_writing_challenge_response_path(challenge, res), :class => 'exercise', :style => "text-decoration: underline;" %></td>
+# 										<% elsif res.writer != current_user.name  && user_res.writing_challenge_id !=  challenge.id && !user_res.response %>
+# 											<%= link_to challenge.exercise, new_writing_challenge_response_path(challenge), :class => 'exercise', :style => "text-decoration: underline;" %></td>
+# 										<% end %>
+# 									<% end %>
+# 								<% end %>
+# 							<% end %>
+# 						<% end %>
+# 					<% end %>
+# 				<% end %>
+# 			<% end %>
+# 	</tr>
+# <% end %> -->

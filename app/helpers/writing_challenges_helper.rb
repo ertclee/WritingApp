@@ -1,0 +1,2 @@
+module WritingChallengesHelper
+end

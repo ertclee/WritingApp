@@ -1,0 +1,109 @@
+/* User sign-in form. */
+
+.border-form-div {
+  max-width: 550px;
+  padding: 39px 109px 99px 109px;
+  margin: 0 auto 20px;
+  background-color: #fff;
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+     -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+          box-shadow: 0 1px 2px rgba(0,0,0,.05);
+  margin-top: 34px;
+  font-family: "PT Mono", monospace;
+  font-size: 16px;
+  color: #808080;
+  line-height: 27px;
+  border-radius: 15px;
+  border: 1px solid #E4E4E4;
+  
+  input[type="text"], input[type="email"],
+  input[type="password"] {
+    padding: 10px -20px;
+    font-family: "PT Mono", monospace;
+    color: #808080;
+    font-size: 16px;
+    height: auto;
+    margin-bottom: 15px;
+    padding: 7px 9px;
+    width: 100%;
+  }
+
+  p { 
+    font-family: "PT Mono", monospace;
+    font-size: 16px;
+    color: #808080;
+    line-height: 27px;
+  }
+  
+  button { 
+    font-family: "PT Mono", monospace;
+    font-size: 24px;
+    color: #FFFFFF;
+    border-radius: 13px;
+    background: #4A90E2;
+    display: inline-block;
+    width: 100%;
+  }
+
+  button:hover {
+    background: #7EB0EB;
+    cursor: pointer;
+  }
+}
+
+.center-div { 
+  max-width: 550px;
+  padding: 39px 109px 99px 109px;
+  margin: 0 auto 20px;
+  background-color: #fff;
+  
+  font-family: "PT Mono", monospace;
+  font-size: 16px;
+  color: #808080;
+  line-height: 27px;
+
+  input { 
+    width: 100%;
+  }
+
+  input[type="checkbox"] {
+    width: 17px
+  }
+
+  input[name="profile[daily_goal]"] {
+    width: 80%;
+  }
+}
+
+.border-form-div .form-signin-heading,
+.border-form-div .checkbox {
+  margin-bottom: 10px;
+}
+
+.ticker {
+  font-family: "PT Mono", monospace;
+  font-size: 14px;
+  color: #C9C9C9;
+  &.full-width { 
+    width: 100%;
+  }
+}
+
+#margin-link { 
+  text-align: center; 
+  margin-top: 5px;
+}
+
+#register-link { 
+  text-align: center; 
+  margin-top: 60px; 
+  width: 102%
+}
+
+#header-margin { 
+  width: 140%; 
+  margin-top: 20px;
+}

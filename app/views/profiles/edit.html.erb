@@ -1,0 +1,138 @@
+<div class="container-header">
+	<div class="container">
+		<h1 id="writersmob">WritersMob</h1>
+		<div style="font-family: PTMono-Regular;
+			font-size: 18px;
+			color: #808080;
+			line-height: 36px;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			border: 1px solid;
+			padding: 8px 10px 8px 10px;
+			text-decoration: none;
+			width: 18%; 
+			position: absolute;
+			top: 117px;
+			text-align: center; margin-left: 153px;">
+			Personal Profile
+		</div>
+		<div style="font-family: PTMono-Regular;
+			font-size: 18px;
+			position: absolute;
+			text-align: center;
+			top: 188px;
+			margin-left: 171px;
+			text-decoration: underline">
+			<%= link_to 'Account Settings', edit_user_registration_path %>
+		</div>
+		<ul class="menu" style="top: 23px">
+			<li><a href="/history">History</a>
+			</li>
+		</ul>
+	</div>
+	<div style="border-left: thick solid red">
+	</div>
+</div>
+
+<div class="center-div">
+	<%= form_for @profile, :url => profile_path(@profile), :html => { :multipart => true } do |f| %>
+		
+	<div style="text-align: center">
+		<div style="margin: 0 auto; text-align: left; width: 292px;">
+			<span id="preview"></span>
+			<%= image_tag(@profile.image.url(:med), :style => "border-radius: 50%; width: 150px; height: 150px", :class => "missing_photo") %>
+			<%= link_to 'Change avatar', 'javascript:;', {:class => 'avatar_image'} %>
+		</div>
+		
+		<%= f.file_field :photo, :style => "opacity: 0"%> 
+	</div>
+
+	<div style="text-align: center">
+		<div style="margin: auto;"><%= f.label :your_name, :style => "font-family: PTMono-Regular; color: #C9C9C9; margin-top: 20px; float: left" %></div>
+	 	<div><%= f.text_field :name, :value =>  @name, :style => "color: #808080; height: 39px; font-size: 20px; margin: 0 auto" %></div>
+	 </div>
+	 <br />
+	 <div style="margin-bottom: 12px; font-family: PTMono-Regular; color: #808080; text-align: center; float: left">
+	 	<div><%= f.check_box :daily_email_reminder %> Send me daily challenge</div>
+	 </div>
+	 
+	 <div style="text-align: center">
+		<div style="margin: auto;"><%= f.label :your_daily_goal, :style => "font-family: PTMono-Regular; color: #C9C9C9; float: left" %></div>
+	 	<div><%= f.text_field :daily_goal, :style => "color: #808080; height: 39px; font-size: 20px; margin: 0 auto" %> words</div>
+	 </div>
+
+	 <br />
+	
+	 <div style="text-align: center">
+		  <%= button_tag(type: 'submit', class: "ladda-button", 'data-style' => "zoom-out", :style=> "font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+				border-radius: 10px;
+				width: 100%;
+				border: #fbfbfb solid 4px;
+				cursor:pointer;
+				background-color: #3498db;
+				color:white;
+				font-size:24px;
+				padding-top:8px;
+				padding-bottom:8px;
+				-webkit-transition: all 0.3s;
+				-moz-transition: all 0.3s;
+				transition: all 0.3s;
+			  	margin-top:-4px;
+			    font-weight:100;") do %>
+				<span class="ladda-label">Save changes</span>
+		  <% end %>
+	 	
+	<% end %>
+	
+</div>
+<%=javascript_include_tag "ladda.min.js", "spin.min.js" %>
+
+<script>
+	$(document).ready(function() { 
+		Ladda.bind( '.ladda-button' );
+		
+	});
+	$(".avatar_image").click(function(e) {
+	    $("input[id='profile_photo']").click();
+	    e.preventDefault();
+	});
+
+
+	function handleFileSelect(evt) {
+		var files = evt.target.files; // FileList object
+		
+		// Loop through the FileList and render image files as thumbnails.
+		for (var i = 0, f; f = files[i]; i++) {
+
+	  	// Only process image files.
+	  	if (!f.type.match('image.*')) {
+	    	continue;
+	  	}
+
+	  	var reader = new FileReader();
+
+	  	// Closure to capture the file information.
+	  	reader.onload = (function(theFile) {
+	    	return function(e) {
+	      		// Render thumbnail.
+	      		var span = document.createElement('span');
+	      		span.innerHTML = ['<img class="thumb" src="', e.target.result,
+	                        '" title="', escape(theFile.name), '"/>'].join('');
+	            $(".missing_photo").remove();
+	            document.getElementById('preview').insertBefore(span, null);
+	            if (document.getElementsByClassName('thumb').length > 1) {
+	            	document.getElementsByClassName('thumb')[0].remove();
+	            }
+	      		
+	    	};
+		})(f);
+
+	  		// Read in the image file as a data URL.
+	  		reader.readAsDataURL(f);
+		}
+	}
+
+	document.getElementById('profile_photo').addEventListener('change', handleFileSelect, false);
+
+</script>
