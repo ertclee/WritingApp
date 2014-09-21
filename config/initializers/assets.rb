@@ -7,4 +7,4 @@ Rails.application.config.assets.cache_store = :memory_store
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 
 # Rails.application.config.assets.precompile += %w( search.js )
-Rails.application.config.assets.precompile += %w( parsley.js parsley.remote.js jstz-1.0.4.min.js ladda.min.js spin.min.js )
+Rails.application.config.assets.precompile += %w( parsley.js parsley.remote.js jstz-1.0.4.min.js ladda.min.js spin.min.js highcharts.js)
