@@ -1,15 +1,15 @@
 Rails.application.configure do
   require 'smtp_tls'
-  Rails.application.routes.default_url_options[:host] = 'writersmob.herokuapp.com'
+  Rails.application.routes.default_url_options[:host] = 'writersmobheroku.herokuapp.com'
   #config.action_controller.default_url_options = {:host=>"writersmob.herokuapp.com"}
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: "smtp.gmail.com",
-    port: 587,
-    authentication: "plain",
-    user_name: "writersmob@gmail.com",
-    password: ENV['SMTP_PASSWORD'],
-    enable_starttls_auto: false
+    :authentication => :plain,
+    :address => "smtp.mailgun.org",
+    :port => 587,
+    :domain => "sandbox0bc3c5e36ce34b4bb48f26e6b5fee614.mailgun.org",
+    :user_name => "postmaster@sandbox0bc3c5e36ce34b4bb48f26e6b5fee614.mailgun.org",
+    :password => "fd94f859c26fe8c063f7a2b91f419d17"
   }
   config.action_mailer.raise_delivery_errors = true
   # Settings specified here will take precedence over those in config/application.rb.
