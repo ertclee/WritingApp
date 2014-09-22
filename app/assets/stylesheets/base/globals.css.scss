@@ -30,3 +30,69 @@
 	font-size: 15px;
 	font-family: PTMono-regular;
 }
+
+.dropdown-user-menu.parent-menu {
+	padding: 0;
+	z-index: 2000;
+	border-radius: 8px;
+}
+
+.dropdown-user-menu.opened {
+	display: block;
+	background-clip: padding-box;
+	background-color: #FFFFFF;
+	border: 2px solid #ddd;
+	border-radius: 4px;
+	position: absolute;
+	display: none;
+	float: left;
+	font-size: 14px;
+	left: -47px;
+	list-style: none outside none;
+	margin: 7px 0 0;
+	width: 141px;
+	padding: 15px 10px;
+	top: 100%;
+	z-index: 1000;
+
+}
+
+.dropdown-user-menu.parent-menu {
+	padding: 0;
+	z-index: 2000;
+	border-radius: 8px;
+}
+
+.dropdown-user-menu.parent-menu ul {
+	overflow-y: auto;
+	max-height: 280px;
+	padding-left: 0;
+}
+
+.dropdown-user-menu.parent-menu .parent-menu-ul {
+	overflow: visible;
+}
+
+.dropdown-user-menu li {
+	float: none;
+}
+
+.dropdown-user-menu li:first-child {
+	position: relative;
+}
+
+.dropdown-user-menu.parent-menu ul li {
+	overflow: visible;
+	padding: 10px;
+	border-bottom: none;
+}
+
+.dropdown-user-menu.parent-menu .parent-menu-ul li {
+	margin: 0;
+	border-radius: 0;
+}
+
+.dropdown-user-menu.parent-menu ul li:first-child {
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+}

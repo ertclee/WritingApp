@@ -114,6 +114,11 @@ class WritingChallengesController < ApplicationController
 		end 
 	end
   
+  	def daily_challenge
+  		@daily_challenge = WritingChallenge.daily
+  		redirect_to new_writing_challenge_response_path(@daily_challenge)
+  	end
+
 	private
 	def challenge_params
   		params.require(:writing_challenge).permit(:exercise)
@@ -124,10 +129,6 @@ class WritingChallengesController < ApplicationController
 	def days_in_month(month, year = Time.now.year)
 	   return 29 if month == 2 && Date.gregorian_leap?(year)
 	   COMMON_YEAR_DAYS_IN_MONTH[month]
-	end
-
-	def get_daily_challenge(challenges)
-
 	end
 
 	protected

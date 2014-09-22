@@ -3,17 +3,47 @@
   <div class="container">
     <a href="/" style="text-decoration: none"><h1 id="writersmob">WritersMob</h1></a>
     <ul class="menu">
-      <li><a href="/history">History</a>
+      <li>
+        <%= link_to('Daily Challenge', daily_challenge_path, 'data-no-turbolink' => true, :style => "font-size: 18px; font-family: PTMono-Regular;
+  font-size: 18px;
+  color: #808080;
+  line-height: 36px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  border: 1px solid;
+  padding: 8px 10px 8px 10px;
+  text-decoration: none;
+") %>
+      </li> 
+      <li>
+        <%= link_to('History', history_path, 'data-no-turbolink' => true, :style => "text-decoration: underline; font-size: 18px") %>
       </li>
+      
+     
     </ul>
+    
     <div class="right-menu">
-      <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>        
+      <li><%= link_to('Profile and settings', edit_profile_path(@profile), 'data-no-turbolink' => true) %></li>
+      <li><%= link_to('Logout', destroy_user_session_path, :method => :delete, 'data-no-turbolink' => true) %></li>       
     </div>
   </div>
 </div>
 <% else %>
   <li style="float: right; list-style-type: none; margin-left: 20px;">
-  <%= link_to('Login', new_user_session_path, 'data-no-turbolink' => true)  %>  
+    <%= link_to('Login', new_user_session_path, 'data-no-turbolink' => true)  %>  
   </li>
   
 <% end %>
+
+<li class="menu-parent">
+  <a class="user-image-menu" href="#">
+    
+  </a>
+  <div class="dropdown-user-menu parent-menu opened">
+    <ul class="parent-menu-ul">
+      <li><a href="/choi_kl">Profile and settings</a></li>
+      <li><a href="/logout">Log out</a></li>
+    </ul>
+  </div>
+</li>

@@ -3,6 +3,7 @@ class ResponsesController < ApplicationController
 	def new
 		@challenge = WritingChallenge.find(params[:writing_challenge_id])
 		@response = Response.new
+		@profile = Profile.find_by user_id: current_user.id
 	end
 
 	def create

@@ -26,15 +26,23 @@
 			text-decoration: underline">
 			<%= link_to 'Account Settings', edit_user_registration_path %>
 		</div>
-		<ul class="menu" style="top: 23px">
+		<ul class="menu" style="top: 23px; font-size: 18px">
+			<li><a href="/daily_challenge">Daily Challenge</a>
+			</li>	
 			<li><a href="/history">History</a>
 			</li>
 		</ul>
 	</div>
+
 	<div style="border-left: thick solid red">
 	</div>
-</div>
 
+	<div class="right-menu-profile">
+      <li><%= link_to('Profile and settings', edit_profile_path(@profile), 'data-no-turbolink' => true) %></li>
+      <li><%= link_to('Logout', destroy_user_session_path, :method => :delete, 'data-no-turbolink' => true) %></li>       
+    </div>
+</div>
+			
 <div class="center-div">
 	<%= form_for @profile, :url => profile_path(@profile), :html => { :multipart => true } do |f| %>
 		

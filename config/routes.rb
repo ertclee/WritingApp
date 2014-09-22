@@ -10,24 +10,24 @@ Rails.application.routes.draw do
     get "/users/password" => "registrations#change_password", :as => :change_password
   end
   
+
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
-  root to: "writing_challenges#index"#{}"responses#new", :writing_challenge_id => '3'
+  root to: "writing_challenges#daily_challenge"#{}"responses#new", :writing_challenge_id => '3'
   resources :writing_challenges do 
     resources :responses
   end
   
   resources :profiles
   get "history", to: 'writing_challenges#history'
-  get "writing_challenges/:id", to: 'responses#new'
   get "/users/check-unique-username", to: 'users#check_unique_username', as: :check_unique_username
   get "/users/check-if-email-confirmed", to: 'users#check_if_email_confirmed', as: :check_if_email_confirmed
   get "/users/check-if-email-exists", to: 'users#check_if_email_exists', as: :check_if_email_exists
   get "/users/password-match", to: 'users#password_match?', as: :password_match  
   get "/users/password-correct", to: 'users#password_correct?', as: :password_correct
   get "writing_challenges/history/:date", to: 'writing_challenges#re_history'
-
+  get "daily_challenge", to: 'writing_challenges#daily_challenge', as: :daily_challenge
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

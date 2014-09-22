@@ -89,7 +89,15 @@ $light-blue: #4A90E2;
 .right-menu {
 	position: absolute;
 	right: 118px;
-	top: 27px;
+	top: 30px;
+	margin: 6px 0 0 0;
+	color: #bbb;
+}
+
+.right-menu-profile {
+	position: absolute;
+	right: 118px;
+	top: 36px;
 	margin: 6px 0 0 0;
 	color: #bbb;
 }
