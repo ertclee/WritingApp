@@ -1,5 +1,10 @@
 ActiveAdmin.register_page "Dashboard" do
+  controller do 
+    def after_sign_in_path_for(resource)
+     admin_dashboard_path
+    end
 
+  end
   menu priority: 1, label: proc{ I18n.t("active_admin.dashboard") }
 
   content title: proc{ I18n.t("active_admin.dashboard") } do
