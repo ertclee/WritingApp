@@ -1,5 +1,5 @@
 class WritingChallengesController < ApplicationController
-	before_action :authenticate_user!, :except => [:index, :new, :create, :show]
+	before_action :authenticate_user!, :except => [:index, :new, :create, :show, :daily_challenge]
 	def index
 		@challenges = WritingChallenge.paginate(:page => params[:page])#Kaminari.paginate_array(WritingChallenge.order(:created_at)).page(params[:page])
 		if current_user
