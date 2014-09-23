@@ -10,8 +10,6 @@ class EmailMessage < ActiveRecord::Base
     puts "does it enter the delay email?"
     t = Time.now
     puts "time zone is ", Time.now.zone
-    puts "is gmt?", Time.now.gmt?
-    puts "is utc?", Time.now.utc?
     puts "local time", Time.now.localtime
     puts "time now without strftime", Time.now
     puts "time is ", t.getlocal.strftime("%H:%M")
