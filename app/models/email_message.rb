@@ -8,6 +8,7 @@ class EmailMessage < ActiveRecord::Base
   
   def self.delay_email
     puts "does it enter the delay email?"
+    puts "time is ", Time.now.strftime("%H:%M")
     mailers = self.where("string_delivery_at = ?", Time.now.strftime("%H:%M"))
     puts "boolean is: ", mailers.present?
     if mailers.present?
