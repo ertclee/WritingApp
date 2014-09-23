@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+
 gem 'paperclip'
 gem 'redis'
 gem 'postgres_ext'
