@@ -33,4 +33,5 @@ class ApplicationController < ActionController::Base
   def after_sign_out_path_for(resource)
     "/writing_challenges/1/responses/new"
   end
+  
 end

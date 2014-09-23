@@ -21,3 +21,4 @@
 //= require spin.min
 //= require ladda.min
 //= require highcharts/highcharts.js
+//= require browser_timezone_rails/application.js
