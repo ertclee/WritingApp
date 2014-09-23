@@ -28,9 +28,7 @@ class ApplicationController < ActionController::Base
     nil
   end
 
-  def after_sign_in_path_for(resource)
-    "/writing_challenges/1/responses/1/edit"
-  end
+  
 
   def after_sign_out_path_for(resource)
     "/writing_challenges/1/responses/new"

@@ -44,13 +44,13 @@
 </div>
 <div class="center-div">
 
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, :style => "border-left: 1px solid #E0E0E0; padding-left: 44px;"}) do |f| %>
     <div style="text-align: center">
       <div style="margin: auto;"><%= f.label :email, :style => "font-family: PTMono-Regular; color: #C9C9C9; margin-top: 20px; float: left" %></div>
       <div><%= f.email_field :email, :value =>  @email, autofocus: true, :style => "color: #808080; height: 39px; font-size: 20px; margin: 0 auto" %></div>
     </div>
     <br />
-    <%= link_to "Change password", change_password_path, 'data-no-turbolink' => true %>
+    <div style="margin-bottom: 42px; margin-left: 3px;"><%= link_to "Change password", change_password_path, 'data-no-turbolink' => true %></div>
     <br />
     <div style="text-align: center">
       <%= button_tag(type: 'submit', class: "ladda-button", 'data-style' => "zoom-out", :style=> "font-family: 'Montserrat', Arial, Helvetica, sans-serif;
