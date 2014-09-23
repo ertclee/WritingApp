@@ -1,8 +1,5 @@
-after "deploy:symlink", "deploy:update_crontab"
-
-namespace :deploy do
-  desc "Update the crontab file"
-  task :update_crontab, :roles => :db do
-    run "cd #{release_path} && whenever --update-crontab #{application}"
+desc "Update the crontab file"
+  task :send_daily_email => :environment do
+    EmailMessage.delay_email
   end
 end
