@@ -8,9 +8,11 @@ class EmailMessage < ActiveRecord::Base
   
   def self.delay_email
     puts "does it enter the delay email?"
-    t = Time.zone.now
+    t = Time.now
+    puts "time zone is ", Time.zone
     puts "time is ", t.getlocal.strftime("%H:%M")
-    mailers = self.where("string_delivery_at = ?", Time.zone.now.strftime("%H:%M"))
+    puts "time now is ", t.strftime("%H:%M")
+    mailers = self.where("string_delivery_at = ?", Time.now.strftime("%H:%M"))
     puts "boolean is: ", mailers.present?
     if mailers.present?
       puts "enters!!!!!!!"
