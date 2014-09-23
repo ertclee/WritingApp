@@ -1,13 +1,13 @@
 ActiveAdmin.register_page "Dashboard" do
-  controller do 
-    def after_sign_in_path_for(resource)
-     admin_dashboard_path
+    controller do 
+        def after_sign_in_path_for(resource)
+        admin_dashboard_path
+        end
+
     end
+    menu priority: 1, label: proc{ I18n.t("active_admin.dashboard") }
 
-  end
-  menu priority: 1, label: proc{ I18n.t("active_admin.dashboard") }
-
-  content title: proc{ I18n.t("active_admin.dashboard") } do
+    content title: proc{ I18n.t("active_admin.dashboard") } do
     div class: "blank_slate_container", id: "dashboard_default_message" do
       span class: "blank_slate" do
         span I18n.t("active_admin.dashboard_welcome.welcome")
@@ -34,5 +34,5 @@ ActiveAdmin.register_page "Dashboard" do
     #     end
     #   end
     # end
-  end # content
+    end # content
 end
