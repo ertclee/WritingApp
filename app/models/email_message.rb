@@ -11,7 +11,7 @@ class EmailMessage < ActiveRecord::Base
     t = Time.now
     @users = User.all
     @users.each do |user|
-      @timezone = user.time_zone
+      @timezone = user.timezone
       puts "timezone is ", @timezone
       puts "time now in timezone is ", Time.now.in_time_zone(@timezone).strftime("%H:%M")
       # puts "time now is ", Time.now
