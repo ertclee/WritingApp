@@ -3,6 +3,8 @@
 			<% challenge.responses.each_with_index do |res, j| %>
 				<% if res.writer && current_user %> 
 					<% current_user.responses.each_with_index do |current_user_response, k| %>
+						Current user id: <%= current_user_response.id %>
+						Response id: <%= res.id %>
 						<% if current_user_response.writer == current_user.name && res.id == current_user_response.id %>
 							<td style="border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; padding: 14px; width: 850px;">
 							<% if @todays_date == current_user_response.time %>
