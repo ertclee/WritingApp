@@ -11,19 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140924074017) do
+ActiveRecord::Schema.define(version: 20140920180934) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "account_settings", force: true do |t|
-    t.string   "email",              default: "", null: false
-    t.string   "encrypted_password", default: "", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "account_settings", ["email"], name: "index_account_settings_on_email", unique: true, using: :btree
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -131,7 +122,6 @@ ActiveRecord::Schema.define(version: 20140924074017) do
     t.string   "timezone"
     t.integer  "target_goal"
     t.string   "name"
-    t.string   "time_zone"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
