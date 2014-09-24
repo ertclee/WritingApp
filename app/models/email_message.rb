@@ -12,7 +12,7 @@ class EmailMessage < ActiveRecord::Base
     @users = User.all
     @users.each do |user|
       @timezone = user.time_zone
-      # puts "timezone is ", @timezone
+      puts "timezone is ", @timezone
       puts "time now in timezone is ", Time.now.in_time_zone(@timezone).strftime("%H:%M")
       # puts "time now is ", Time.now
       mailers = self.where("string_delivery_at = ?", Time.now.in_time_zone(@timezone).strftime("%H:%M"))
