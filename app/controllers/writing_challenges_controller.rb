@@ -84,7 +84,6 @@ class WritingChallengesController < ApplicationController
 						@day = res.time.to_date.strftime('%d')
 						@exact_time = res.updated_at.in_time_zone(Time.zone)
 						@localtime.push(@exact_time.localtime.strftime('%H:%M'))
-						puts "localtime is ", @localtime
 						Date::MONTHNAMES[@month.to_i]
 						@daily_challenges["#{res.time.to_date.strftime('%d-%m-%Y')}"] += res.response.split.size
 					end

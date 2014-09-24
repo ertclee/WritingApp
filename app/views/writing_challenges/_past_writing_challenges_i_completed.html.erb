@@ -1,7 +1,8 @@
 <% challenges.each do |challenge| %>
 	<tr class="challenge">
-			<%= @localtime %>
+
 			<% challenge.responses.each_with_index do |res, i| %>
+				<%= @localtime[i] %>
 				<% if res.writer && current_user %> 
 					<% if res.writer == current_user.name %>
 						<td style="border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; padding: 14px; width: 850px;">
