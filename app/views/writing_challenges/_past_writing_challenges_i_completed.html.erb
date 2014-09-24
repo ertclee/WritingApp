@@ -6,10 +6,10 @@
 				<% if res.writer && current_user %> 
 					
 					<% if res.writer == current_user.name %>
-						<%= @localtime %> <%= i %>
+						
 						<td style="border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; padding: 14px; width: 850px;">
 						<% if @todays_date == res.time %>
-							<div style="color: #C9C9C9">Today, <%= @localtime[i] %>, <%= res.wordcount %> words</div>
+							<div style="color: #C9C9C9">Today, <%= @localtime[0] %>, <%= res.wordcount %> words</div>
 						<% elsif @todays_date.day - res.time.day == 1 %>
 							<div style="color: #C9C9C9">Yesterday, <%= res.wordcount %> words</div>
 						<% else %>
