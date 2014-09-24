@@ -2,7 +2,7 @@
 	<tr class="challenge">
 
 			<% challenge.responses.each_with_index do |res, i| %>
-
+				<%= i %>
 				<% if res.writer && current_user %> 
 					
 					<% if res.writer == current_user.name %>
