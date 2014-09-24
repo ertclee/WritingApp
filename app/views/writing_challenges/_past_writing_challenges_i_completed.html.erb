@@ -2,11 +2,11 @@
 	<tr class="challenge">
 
 			<% challenge.responses.each_with_index do |res, i| %>
-				<%= @localtime[i] %> <%= i %>
+				
 				<% if res.writer && current_user %> 
-					<%= @localtime[i] %> <%= i %>
+					
 					<% if res.writer == current_user.name %>
-						<%= @localtime[i] %> <%= i %>
+						
 						<td style="border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; padding: 14px; width: 850px;">
 						<% if @todays_date == res.time %>
 							<div style="color: #C9C9C9">Today, <%= @localtime[i] %>, <%= res.wordcount %> words</div>
