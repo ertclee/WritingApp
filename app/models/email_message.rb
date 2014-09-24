@@ -21,14 +21,14 @@ class EmailMessage < ActiveRecord::Base
         # puts "enters!!!!!!!"
         users = User.confirmed
         mailers.each do |mailer|
-          users.each do |user|
-            @profile = Profile.find_by user_id: user.id
-            # puts "enters user loop!"
-            if @profile.daily_email_reminder
-              # puts "enters delay email"
-              DailyMailer.send_mail(user.email, mailer.subject, mailer.message).deliver
-            end
+          
+          @profile = Profile.find_by user_id: user.id
+          # puts "enters user loop!"
+          if @profile.daily_email_reminder
+            # puts "enters delay email"
+            DailyMailer.send_mail(user.email, mailer.subject, mailer.message).deliver
           end
+          
         end
       end
     end
