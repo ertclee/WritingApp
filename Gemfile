@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-gem 'browser-timezone-rails'
 gem 'paperclip'
 gem 'redis'
 gem 'postgres_ext'
