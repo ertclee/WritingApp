@@ -56,6 +56,7 @@ class WritingChallengesController < ApplicationController
 		@profile = Profile.find_by user_id: current_user.id
 		current_user.target_goal = @profile.daily_goal # comment this line.
 		@max_value_for_xAxis = days_in_month(Time.now.month) # variable used for highcharts.
+		@localtime = []
 		#make sure to delete the following
 		# @daily_challenges['01-09-2014'] = 1
 		# @daily_challenges['02-09-2014'] = 2
@@ -81,8 +82,8 @@ class WritingChallengesController < ApplicationController
 					if res.writer == current_user.name
 						@month = res.time.to_date.strftime('%-m')
 						@day = res.time.to_date.strftime('%d')
-						@exact_time = res.updated_at
-						@localtime = @exact_time.localtime.strftime('%H:%M')
+						@exact_time = res.updated_at.in_time_zone(Time.zone)
+						@localtime.push(@exact_time.localtime.strftime('%H:%M'))
 						Date::MONTHNAMES[@month.to_i]
 						@daily_challenges["#{res.time.to_date.strftime('%d-%m-%Y')}"] += res.response.split.size
 					end

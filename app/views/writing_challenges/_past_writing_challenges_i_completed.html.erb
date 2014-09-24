@@ -1,15 +1,15 @@
 <% challenges.each do |challenge| %>
 	<tr class="challenge">
-			<% challenge.responses.each do |res| %>
+			<% challenge.responses.each_with_index do |res, i| %>
 				<% if res.writer && current_user %> 
 					<% if res.writer == current_user.name %>
 						<td style="border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; padding: 14px; width: 850px;">
 						<% if @todays_date == res.time %>
-							<div style="color: #C9C9C9">Today, <%= @localtime %>, <%= res.wordcount %> words</div>
+							<div style="color: #C9C9C9">Today, <%= @localtime[i] %>, <%= res.wordcount %> words</div>
 						<% elsif @todays_date.day - res.time.day == 1 %>
 							<div style="color: #C9C9C9">Yesterday, <%= res.wordcount %> words</div>
 						<% else %>
-							<div style="color: #C9C9C9"><%= @day + " " + Date::MONTHNAMES[@month.to_i] + ', ' + @localtime %>, <%= res.wordcount %> words</div>
+							<div style="color: #C9C9C9"><%= @day + " " + Date::MONTHNAMES[@month.to_i] + ', ' + @localtime[i] %>, <%= res.wordcount %> words</div>
 						<% end %>
 							<%= link_to challenge.exercise, edit_writing_challenge_response_path(challenge, res), 'data-no-turbolink' => true, :class => 'exercise', :style => "text-decoration: underline;" %>
 						</td>
