@@ -11,7 +11,7 @@ class EmailMessage < ActiveRecord::Base
     t = Time.now
     puts "time zone is ", Time.now.zone
     puts "local time", Time.now.localtime
-    puts "time now without strftime", Time.now
+    puts "time now with strftime", Time.now.strftime("%H:%M")
     puts "time is ", t.getlocal.strftime("%H:%M")
     puts "time now is ", t.strftime("%H:%M")
     mailers = self.where("string_delivery_at = ?", Time.now.strftime("%H:%M"))
