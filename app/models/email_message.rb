@@ -12,20 +12,20 @@ class EmailMessage < ActiveRecord::Base
     @users = User.all
     @users.each do |user|
       @timezone = user.timezone
-      # puts "timezone is ", @timezone
-      # puts "time now in timezone is ", Time.now.in_time_zone(@timezone).strftime("%H:%M")
-      # puts "time now is ", Time.now
+      puts "timezone is ", @timezone
+      puts "time now in timezone is ", Time.now.in_time_zone(@timezone).strftime("%H:%M")
+      puts "time now is ", Time.now
       mailers = self.where("string_delivery_at = ?", Time.now.in_time_zone(@timezone).strftime("%H:%M"))
-      # puts "boolean is: ", mailers.present?
+      puts "boolean is: ", mailers.present?
       if mailers.present?
-        # puts "enters!!!!!!!"
+        puts "enters!!!!!!!"
         users = User.confirmed
         mailers.each do |mailer|
           
           @profile = Profile.find_by user_id: user.id
-          # puts "enters user loop!"
+          puts "enters user loop!"
           if @profile.daily_email_reminder
-            # puts "enters delay email"
+            puts "enters delay email"
             DailyMailer.send_mail(user.email, mailer.subject, mailer.message).deliver
           end
           
