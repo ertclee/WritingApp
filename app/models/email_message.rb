@@ -5,7 +5,7 @@ class EmailMessage < ActiveRecord::Base
   def set_string_delivery_at
     self.string_delivery_at = self.deliver_at.strftime("%H:%M")
   end
-  
+
   def self.delay_email
     puts "does it enter the delay email?"
     t = Time.now

@@ -43,13 +43,12 @@
     </div>
 </div>
 <p id="copyright">© WritersMob, 2014</p>
-
+<%=javascript_include_tag "parsley.js", "parsley.remote.js", "jstz-1.0.4.min.js", "ladda.min.js", "spin.min.js" %> 
 <script>
 
   
   $(document).ready(function() { 
     Ladda.bind( '.ladda-button');
-
     $('#response_response').each(function() {
         var input = '#' + this.id;
         var count = input + '_count';
