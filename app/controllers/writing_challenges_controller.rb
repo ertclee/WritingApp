@@ -34,6 +34,7 @@ class WritingChallengesController < ApplicationController
 	end
   
 	def history
+		puts "time zone is ", cookies["browser.timezone"]
 		if params[:date]
 			@todays_date = params[:date].to_date
 		else
@@ -82,7 +83,7 @@ class WritingChallengesController < ApplicationController
 					if res.writer == current_user.name
 						@month = res.time.to_date.strftime('%-m')
 						@day = res.time.to_date.strftime('%d')
-						@exact_time = res.updated_at.in_time_zone(Time.zone)
+						@exact_time = res.updated_at.in_time_zone(cookies["browser.timezone"])
 						@localtime.push(@exact_time.localtime.strftime('%H:%M'))
 						Date::MONTHNAMES[@month.to_i]
 						@daily_challenges["#{res.time.to_date.strftime('%d-%m-%Y')}"] += res.response.split.size

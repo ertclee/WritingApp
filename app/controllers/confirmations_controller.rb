@@ -18,6 +18,7 @@ class ConfirmationsController < Devise::ConfirmationsController
     digested_token = Devise.token_generator.digest(self, :confirmation_token, @original_token)
     self.resource = resource_class.find_by_confirmation_token! digested_token
     resource.assign_attributes(permitted_params)
+    resource.update_attribute(:time_zone, cookies["browser.timezone"])
     @response = Response.last
     @response.update_attribute(:writer, params["user"]["name"])
     if resource.valid? && resource.password_match?
