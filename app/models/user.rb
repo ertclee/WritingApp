@@ -28,7 +28,9 @@ class User < ActiveRecord::Base
   def after_confirmation
     @user = User.last
     @response = Response.last
-    @user.responses << @response
+    if @response
+      @user.responses << @response
+    end
   end
 
   private
