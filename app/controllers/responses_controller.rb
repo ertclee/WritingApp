@@ -2,7 +2,8 @@ class ResponsesController < ApplicationController
 	before_filter :auth_user, only: [:create]
 	before_filter :daily_challenge, only: [:new]
 	before_filter :edit_daily_challenge, only: [:edit]
-	before_filter :daily_challenge_redirect, only: [:index]
+	before_action :daily_challenge_redirect, only: [:index]
+	
 	def index
 		@challenge = WritingChallenge.new
 	end
@@ -61,23 +62,13 @@ class ResponsesController < ApplicationController
 	    end
 
 	    def daily_challenge
-
 	    	@challenge = WritingChallenge.daily
-	    	
 			if request.fullpath.match(/daily-challenge/)
-				puts 'enters'
 				if current_user.present?
 					@responses = current_user.responses
 					@challenge = WritingChallenge.daily
 					if @responses.present?
-			    		puts "enters responses.present?"
 			    		@responses.each do |response|
-			    			puts "response.writing_challenge_id ", response.writing_challenge_id
-			    			puts 'challenge id ', @challenge.id
-			    			puts "writer is ", response.writer
-			    			puts "current_user name is ", current_user.name
-			    			puts "boolean value is ", response.writing_challenge_id == @challenge.id && response.writer == current_user.name
-			    			puts " "
 			    			if response.writing_challenge_id == @challenge.id && response.writer == current_user.name
 			    				redirect_to edit_daily_challenge_path
 			    			end
