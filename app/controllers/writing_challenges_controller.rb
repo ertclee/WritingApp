@@ -1,5 +1,5 @@
 class WritingChallengesController < ApplicationController
-	before_action :authenticate_user!, :except => [:index, :new, :create, :show, :daily_challenge]
+	before_action :authenticate_user!, :except => [:index, :new, :create, :show]
 	def index
 		@challenges = WritingChallenge.paginate(:page => params[:page])#Kaminari.paginate_array(WritingChallenge.order(:created_at)).page(params[:page])
 		if current_user
@@ -30,16 +30,16 @@ class WritingChallengesController < ApplicationController
 	end
 
 	def show
-		@challenge = WritingChallenge.find(params[:id])
+		
 	end
   
 	def history
-		puts "time zone is ", cookies["browser.timezone"]
 		if params[:date]
 			@todays_date = params[:date].to_date
 		else
 			@todays_date = Date.today
 		end
+		@daily_challenge = WritingChallenge.daily
 		@profile = Profile.find_by user_id: current_user.id
 		@todays_date = Date.today
 		@signup_date = current_user.created_at.localtime.strftime('%Y-%m-%d')
@@ -58,25 +58,6 @@ class WritingChallengesController < ApplicationController
 		current_user.target_goal = @profile.daily_goal # comment this line.
 		@max_value_for_xAxis = days_in_month(Time.now.month) # variable used for highcharts.
 		@localtime = []
-		#make sure to delete the following
-		# @daily_challenges['01-09-2014'] = 1
-		# @daily_challenges['02-09-2014'] = 2
-		# @daily_challenges['03-09-2014'] = 3
-		# @daily_challenges['08-09-2014'] = 4
-		# @daily_challenges['09-09-2014'] = 5
-		# @daily_challenges['10-09-2014'] = 6
-		# @daily_challenges['11-09-2014'] = 7
-		# @daily_challenges['12-09-2014'] = 8
-		# @daily_challenges['13-09-2014'] = 10
-		# i = 14
-		# value = 10
-		# 17.times do 
-		# 	puts i.to_s + '-09-2014'
-		# 	@daily_challenges[i.to_s + '-09-2014'] = value
-		# 	i += 1
-		# 	value += 1
-		# end
-		#delete ends here.
 		daily_challenges.each do |challenge| 
 			if challenge && challenge.responses
 				challenge.responses.each do |res|
@@ -84,7 +65,6 @@ class WritingChallengesController < ApplicationController
 						@month = res.time.to_date.strftime('%-m')
 						@day = res.time.to_date.strftime('%d')
 						@exact_time = res.updated_at.in_time_zone(cookies["browser.timezone"])
-						puts "exact time is", @exact_time
 						@localtime.push(@exact_time.localtime.strftime('%H:%M'))
 						Date::MONTHNAMES[@month.to_i]
 						@daily_challenges["#{res.time.to_date.strftime('%d-%m-%Y')}"] += res.response.split.size
@@ -92,7 +72,6 @@ class WritingChallengesController < ApplicationController
 				end
 			end
 		end
-		
 		@daily_challenges.values.each do |val|
 			@total_of_month += val
 		end
@@ -116,12 +95,7 @@ class WritingChallengesController < ApplicationController
 		  format.js
 		end 
 	end
-  
-  	def daily_challenge
-  		@daily_challenge = WritingChallenge.daily
-  		redirect_to new_writing_challenge_response_path(@daily_challenge)
-  	end
-
+	
 	private
 	def challenge_params
   		params.require(:writing_challenge).permit(:exercise)

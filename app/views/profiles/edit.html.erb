@@ -1,6 +1,33 @@
+<% if user_signed_in? %>
+  <div class="container-header">
+  <div class="container">
+    <a href="/" style="text-decoration: none"><h1 id="writersmob">WritersMob</h1></a>
+    <ul class="menu">
+      <li>
+        <%= link_to('Daily Challenge', daily_challenge_path, 'data-no-turbolink' => true, :style => "font-size: 18px; font-family: PTMono-Regular; font-size: 18px; text-decoration: underline; ") %> 
+      </li> 
+      <li>
+        <%= link_to('History', my_history_path, 'data-no-turbolink' => true, :style => "text-decoration: underline; font-size: 18px") %>
+      </li>
+      
+     
+    </ul>
+    
+    <div class="right-menu">
+      <li><%= link_to('Profile and settings', my_profile_path, 'data-no-turbolink' => true) %></li>
+      <li><%= link_to('Logout', destroy_user_session_path, :method => :delete, 'data-no-turbolink' => true) %></li>       
+    </div>
+  </div>
+</div>
+<% else %>
+  <li style="float: right; list-style-type: none; margin-left: 20px;">
+    <%= link_to('Login', new_user_session_path, 'data-no-turbolink' => true)  %>  
+  </li>
+  
+<% end %>
 <div class="container-header">
 	<div class="container">
-		<h1 id="writersmob">WritersMob</h1>
+		
 		<div style="font-family: PTMono-Regular;
 			font-size: 18px;
 			color: #808080;
@@ -13,7 +40,7 @@
 			text-decoration: none;
 			width: 18%; 
 			position: absolute;
-			top: 117px;
+			top: 59px;
 			text-align: center; margin-left: 153px;">
 			Personal Profile
 		</div>
@@ -21,26 +48,17 @@
 			font-size: 18px;
 			position: absolute;
 			text-align: center;
-			top: 188px;
+			top: 140px;
 			margin-left: 171px;
 			text-decoration: underline">
-			<%= link_to 'Account Settings', edit_user_registration_path %>
+			<%= link_to 'Account Settings', my_settings_path %>
 		</div>
-		<ul class="menu" style="top: 23px; font-size: 18px">
-			<li><a href="/daily_challenge">Daily Challenge</a>
-			</li>	
-			<li><a href="/history">History</a>
-			</li>
-		</ul>
+		
 	</div>
 
-	<div style="border-left: thick solid red">
-	</div>
 
-	<div class="right-menu-profile">
-      <li><%= link_to('Profile and settings', edit_profile_path(@profile), 'data-no-turbolink' => true) %></li>
-      <li><%= link_to('Logout', destroy_user_session_path, :method => :delete, 'data-no-turbolink' => true) %></li>       
-    </div>
+
+	
 </div>
 			
 <div class="center-div">
@@ -62,7 +80,7 @@
 	 </div>
 	 <br />
 	 <div style="margin-bottom: 12px; font-family: PTMono-Regular; color: #808080; text-align: center; float: left">
-	 	<div><%= f.check_box :daily_email_reminder %> Send me daily challenge</div>
+	 	<div><%= f.check_box :daily_email_reminder %> Send me the daily challenge</div>
 	 </div>
 	 
 	 <div style="text-align: center">

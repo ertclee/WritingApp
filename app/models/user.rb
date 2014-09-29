@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
   def after_confirmation
     @user = User.last
     @response = Response.last
-    if @response
+    if @response.present? && @response.writer == @user.name
       @user.responses << @response
     end
   end

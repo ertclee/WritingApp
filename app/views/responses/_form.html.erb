@@ -11,7 +11,7 @@
     </div>
   <% end %>
   <div class="response-field">
-    <%= f.text_area :response, :placeholder => "Start typing Here...", :autofocus => true %>
+    <%= f.text_area :response, :placeholder => "Start writing here...", :autofocus => true %>
   </div>
   <br />
   <div class="actions hidden">
@@ -47,7 +47,7 @@
 <script>
 
   
-  $(document).ready(function() { 
+  $(document).ready(function(e) { 
     Ladda.bind( '.ladda-button');
     $('#response_response').each(function() {
         var input = '#' + this.id;
@@ -55,15 +55,34 @@
         $(count).show();
         word_count(input, count);
         $(this).keyup(function() { 
-          console.log("it enters here!")
           word_count(input, count) 
         });
     });
+    var $countdown_timer = $("#countdown_timer");
+
+    function update() {
+        var myTime = $countdown_timer.html();
+        
+        var ss = myTime.split(":");
+        var dt = new Date();
+        dt.setHours(0);
+        dt.setMinutes(ss[0]);
+        dt.setSeconds(ss[1]);
+        
+        var dt2 = new Date(dt.valueOf() + 1000);
+        var temp = dt2.toTimeString().split(" ");
+        var ts = temp[0].split(":");
+        var number = $("#response_response_count").html().match(/^[0-9]+/);
+        $countdown_timer.html(ts[1]+":"+ts[2]);
+        setTimeout(update, 1000);
+    }
+
+    setTimeout(update, 1000);
+
   });
 
   function word_count(field, count) {
       var number = 0;
-      console.log($(field).val())
       var matches = $(field).val().match(/\S+/g);
       if (matches) {
         number = matches.length;
@@ -77,8 +96,36 @@
         $(".actions").removeClass("shown");
         $(".actions").addClass('hidden');
       }
-
       $(count).text( number + ' word' + (number != 1 ? 's' : '') + ' written so far');
-
   };
+
+  
+  // function countdown( elementName, minutes, seconds ) {
+  //     var element, endTime, hours, mins, msLeft, time;
+
+  //     function twoDigits( n )
+  //     {
+  //         return (n <= 9 ? "0" + n : n);
+  //     }
+
+  //     function updateTimer()
+  //     {
+  //         msLeft = endTime - (+new Date);
+  //         if ( msLeft < 1000 ) {
+  //             element.innerHTML = "Time is up! You can continue writing or click the complete button.";
+  //         } else {
+  //             time = new Date( msLeft );
+  //             hours = time.getUTCHours();
+  //             mins = time.getUTCMinutes();
+  //             element.innerHTML = "Time elapsed: " + (hours ? hours + ':' + twoDigits( mins ) : mins) + ':' + twoDigits( time.getUTCSeconds() );
+  //             setTimeout( updateTimer, time.getUTCMilliseconds() + 500 );
+  //         }
+  //     }
+
+  //     element = document.getElementById( elementName );
+  //     endTime = (+new Date) + 1000 * (60*minutes + seconds) + 500;
+  //     updateTimer();
+  // }
+
+  // countdown( "countdown_timer", 5, 0 );
 </script>

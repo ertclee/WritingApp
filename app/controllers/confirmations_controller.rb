@@ -19,7 +19,8 @@ class ConfirmationsController < Devise::ConfirmationsController
     self.resource = resource_class.find_by_confirmation_token! digested_token
     resource.assign_attributes(permitted_params)
     @response = Response.last
-    if @reponse
+    
+    if @response.present? && @response.writer.nil?
       @response.update_attribute(:writer, params["user"]["name"])
     end
     if resource.valid? && resource.password_match?

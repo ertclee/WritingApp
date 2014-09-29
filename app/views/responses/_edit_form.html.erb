@@ -14,11 +14,11 @@
     <% if @response.response %>
       <%= f.text_area :response, :value => @response.response, :autofocus => true %>
     <% else %> 
-      <%= f.text_area :response, :placeholder => "Start typing Here...", :autofocus => true %>
+      <%= f.text_area :response, :placeholder => "Please type here", :autofocus => true %>
     <% end %>
   </div>
   <br />
-  <div class="actions hidden">
+  <div class="actions">
     <% if @response.response %>
       <%= button_tag(type: 'submit', class: "ladda-button", 'data-style' => "zoom-out", :style=> "font-family: 'Montserrat', Arial, Helvetica, sans-serif;
         border-radius: 10px;
@@ -81,7 +81,7 @@
         $(count).show();
         word_count(input, count);
         $(this).keyup(function() { 
-          word_count(input, count) 
+          word_count(input, count);
         });
     });
   });
@@ -94,13 +94,6 @@
         number = matches.length;
       } else { 
         number = 0;
-      }
-      if (number > 2) {
-        $(".actions").removeClass("hidden");
-        $(".actions").addClass('shown');
-      } else { 
-        $(".actions").removeClass("shown");
-        $(".actions").addClass('hidden');
       }
 
       $(count).text( number + ' word' + (number != 1 ? 's' : '') + ' written so far');

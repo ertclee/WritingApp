@@ -20,7 +20,7 @@ class RegistrationsController < Devise::RegistrationsController
 	    @email = current_user.email
 	    successfully_updated = if needs_password?(@user, params)
 	    	# puts "is the password valid?", valid_password?(params[:current_password])
-	    	puts "sanitized values are ", devise_parameter_sanitizer.sanitize(:account_update)
+	    	#puts "sanitized values are ", devise_parameter_sanitizer.sanitize(:account_update)
 	        @user.update_with_password(devise_parameter_sanitizer.sanitize(:account_update))
 	    else
 	    	
@@ -37,10 +37,10 @@ class RegistrationsController < Devise::RegistrationsController
 	    end
 	    puts "is successful? ", successfully_updated
 	    if successfully_updated
-	      set_flash_message :notice, :updated
+	    	flash[:success] = "Your account settings was successfully updated!"
 	      # Sign in the user bypassing validation in case their password changed
-	      sign_in @user, :bypass => true
-	      redirect_to after_update_path_for(@user)
+	      	sign_in @user, :bypass => true
+	      	redirect_to my_settings_path
 	    else
 	      render "edit"
 	    end

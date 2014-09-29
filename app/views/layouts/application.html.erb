@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Writersmob</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-  
+	<title>Writersmob</title>
+	<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+	<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+	<%= csrf_meta_tags %>
+	<div class="container">
+	  <% flash.each do |key, value| %>
+	  	<% if key == 'success' %>
+	    	<div class="alert alert-<%= key %>"><%= value %></div>
+	    <% end %>
+	  <% end %>
+	</div>
 </head>
 <body>
 
@@ -13,3 +19,8 @@
 
 </body>
 </html>
+<script>
+setTimeout(function(){
+    $('.alert').slideUp(500);
+ }, 2000);
+</script>

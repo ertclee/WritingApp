@@ -1,9 +1,13 @@
 <%= render 'devise/menu/no_profile_settings_login_items' %>
-<div class="exercise-title">
-	<div id="highlight" style="margin: auto; text-align: left; width: 292px; line-height:28px; width: 638px;"><%= @challenge.exercise %>
+<div class="exercise-title row">
+	<div class="highlight" style="margin: auto; text-align: left; width: 292px; line-height:28px; width: 638px;"><%= @challenge.exercise %>
 	</div>
 </div>
 
-<div id="response_response_count" style="display:none; text-align: center; color: #CEC7C5; margin-left: 210px"></div>
+<div class="row">
+	<div style="color: #CEC7C5; text-align:right;" class="col-md-6">Time elapsed: <span id="countdown_timer">00:00</span></div>
+	<div id="response_response_count" style="display:none; color: #CEC7C5;" class="col-md-6"></div>
+</div>
+
 <%= render 'form' %>
 

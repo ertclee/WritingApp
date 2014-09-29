@@ -5,7 +5,7 @@
 	<%= form_for(resource, as: resource_name, url: registration_path(resource_name), data: {validate: 'parsley'}, html: {novalidate: :novalidate}) do |f| %>
 
 	  <div style="margin-top: 50px"><%= f.label :email, :class => "ticker" %><br />
-	  <%= f.email_field :email, autofocus: true, required: true, "data-parsley-remote"=>true, "data-parsley-remote-validator" => 'check-unique-username', "data-parsley-remote-options"=>'{ "type": "GET" }', 'data-parsley-remote-message' => '' %></div>
+	  <%= f.email_field :email, autofocus: true, required: true, "data-parsley-remote" => true, "data-parsley-remote-validator" => 'check-unique-username', 'data-parsley-trigger' => "keypress", "data-parsley-remote-options"=>'{ "type": "GET" }', 'data-parsley-remote-message' => '' %></div>
 
 	 	<%=f.hidden_field "timezone" %>
 		<%= button_tag(type: 'submit', class: "ladda-button", 'data-style' => "zoom-out") do %>
@@ -34,18 +34,22 @@
 	  'check-unique-username', function (xhr) {
 	    var UserEmail = $('[name="user[email]"]').parsley();
 	    window.ParsleyUI.removeError(UserEmail, "email");
-	    
 	    if(xhr.status == '200')
-	       return 200;
-	    if(xhr.status == '422' || xhr.status == '404'){
-	       window.ParsleyUI.addError(UserEmail, "email", xhr.responseText);
-	       $('.parsley-remote').remove();
-	       Ladda.stopAll();
+	       	return 200;
+	    if(xhr.status == '422' || xhr.status == '404') {
+	    	console.log("enters the error part")
+			window.ParsleyUI.addError(UserEmail, "email", xhr.responseText);
+			$('.parsley-remote').remove();
+			Ladda.stopAll();
 		}
-	  }, "<%= check_unique_username_url%>");
+	  }, "<%= check_unique_username_url %>");
 		
 	$('[name="user[email]"]').keyup(function() { 
 		var UserEmail = $('[name="user[email]"]').parsley();
+		if (event.which == 13 || event.keyCode == 13) {
+			console.log("enters enter key press");
+			window.ParsleyUI.addError(password, "password", 'error message');
+		}
 	    window.ParsleyUI.removeError(UserEmail, "email");
 	});
 

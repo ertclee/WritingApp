@@ -37,8 +37,9 @@ $( document ).ready(function() {
 $('[name="user[email]"]').parsley().addAsyncValidator(
   'check-if-email-exists', function (xhr) {
 	var UserEmail = $('[name="user[email]"]').parsley();
-	window.ParsleyUI.removeError(UserEmail, "email");
+	
 	if(xhr.status == '200') {
+		window.ParsleyUI.removeError(UserEmail, "email");
 		return 200;
 	}
 	if(xhr.status == '422' || xhr.status == '404'){
@@ -56,6 +57,8 @@ $('[name="user[password]"]').parsley().addAsyncValidator(
 	if(xhr.status == '200')
 		return 200;
 	if(xhr.status == '422' || xhr.status == '404'){
+		console.log("enters the 404")
+		console.log(xhr.responseText)
 		window.ParsleyUI.addError(password, "password", xhr.responseText);
 		$('.parsley-remote').remove();
 		Ladda.stopAll();
@@ -67,7 +70,12 @@ $('[name="user[email]"]').keyup(function() {
     window.ParsleyUI.removeError(UserEmail, "email");
 });
 
-$('[name="user[password]"]').keyup(function() { 
+$('[name="user[password]"]').keyup(function(event) {
+	console.log('enters the keyup') 
+	if (event.which == 13 || event.keyCode == 13) {
+		console.log("enters enter key press");
+		window.ParsleyUI.addError(password, "password", 'error message');
+	}
 	var password = $('[name="user[password]"]').parsley();
     window.ParsleyUI.removeError(password, "password");
 });

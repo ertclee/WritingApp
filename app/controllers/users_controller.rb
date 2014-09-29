@@ -5,6 +5,7 @@ class UsersController < ApplicationController
     if user.present?
   		render json: "Email already taken.", status: :unprocessable_entity
   	else
+      puts "enters here"
     	render :json => true 
   	end
   end

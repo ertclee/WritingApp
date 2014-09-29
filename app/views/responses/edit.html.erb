@@ -1,5 +1,11 @@
 <%= render 'devise/menu/no_profile_settings_login_items' %>
-<div class="exercise-title"><div id="highlight" style="margin: auto; text-align: left; width: 292px; line-height:28px; width: 638px;"><%= @challenge.exercise %></div></div>
-<div id="countDown"></div>
-<div id="response_response_count" style="display:none; text-align: center; color: #CEC7C5; margin-left: 210px"></div>
+<div class="exercise-title row">
+	<div class="highlight" style="margin: auto; text-align: left; width: 292px; line-height:28px; width: 638px;"><%= @challenge.exercise %>
+	</div>
+</div>
+
+<div class="row">
+	<div id="response_response_count" style="display:none; text-align: right; color: #CEC7C5; width: 55%;" class="col-md-6"></div>
+</div>
+
 <%= render 'edit_form' %>

@@ -3,7 +3,7 @@
   <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>        
   </li>
   <li>
-      <%= link_to('Profile and settings', edit_profile_path(@profile), 'data-no-turbolink' => true) %>
+      <%= link_to('Profile and settings', my_profile_path, 'data-no-turbolink' => true) %>
   </li>
 <% else %>
   <li style="float: right; list-style-type: none; margin-left: 20px;">

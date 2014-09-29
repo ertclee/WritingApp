@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140920180934) do
+ActiveRecord::Schema.define(version: 20140928052027) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,8 +96,10 @@ ActiveRecord::Schema.define(version: 20140920180934) do
     t.datetime "updated_at"
     t.date     "time"
     t.string   "wordcount"
+    t.string   "slug"
   end
 
+  add_index "responses", ["slug"], name: "index_responses_on_slug", using: :btree
   add_index "responses", ["user_id", "writing_challenge_id"], name: "index_responses_on_user_id_and_writing_challenge_id", unique: true, using: :btree
   add_index "responses", ["user_id"], name: "index_responses_on_user_id", using: :btree
   add_index "responses", ["writing_challenge_id"], name: "index_responses_on_writing_challenge_id", using: :btree
@@ -132,6 +134,9 @@ ActiveRecord::Schema.define(version: 20140920180934) do
     t.datetime "updated_at"
     t.string   "exercise"
     t.integer  "user_id"
+    t.string   "slug"
   end
+
+  add_index "writing_challenges", ["slug"], name: "index_writing_challenges_on_slug", using: :btree
 
 end

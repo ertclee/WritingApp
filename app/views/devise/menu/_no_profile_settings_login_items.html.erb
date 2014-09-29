@@ -4,7 +4,7 @@
     <a href="/" style="text-decoration: none"><h1 id="writersmob">WritersMob</h1></a>
     <ul class="menu">
       <li>
-        <%= link_to('Daily Challenge', daily_challenge_path, 'data-no-turbolink' => true, :style => "font-size: 18px; font-family: PTMono-Regular;
+        <%= link_to('Daily Challenge', daily_challenge_path(@writing_challenge_title), 'data-no-turbolink' => true, :style => "font-size: 18px; font-family: PTMono-Regular;
   font-size: 18px;
   color: #808080;
   line-height: 36px;
@@ -17,14 +17,14 @@
 ") %>
       </li> 
       <li>
-        <%= link_to('History', history_path, 'data-no-turbolink' => true, :style => "text-decoration: underline; font-size: 18px") %>
+        <%= link_to('History', my_history_path, 'data-no-turbolink' => true, :style => "text-decoration: underline; font-size: 18px") %>
       </li>
       
      
     </ul>
     
     <div class="right-menu">
-      <li><%= link_to('Profile and settings', edit_profile_path(@profile), 'data-no-turbolink' => true) %></li>
+      <li><%= link_to('Profile and settings', my_profile_path, 'data-no-turbolink' => true) %></li>
       <li><%= link_to('Logout', destroy_user_session_path, :method => :delete, 'data-no-turbolink' => true) %></li>       
     </div>
   </div>

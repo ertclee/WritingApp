@@ -1,4 +1,6 @@
 source 'https://rubygems.org'
+
+gem 'friendly_id', '~> 5.0.0'
 gem 'browser-timezone-rails'
 gem 'paperclip'
 gem 'redis'

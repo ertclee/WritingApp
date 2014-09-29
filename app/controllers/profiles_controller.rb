@@ -1,5 +1,6 @@
 class ProfilesController < ApplicationController
 	def edit
+		@daily_challenge = WritingChallenge.daily
 	   	@profile = Profile.find_by user_id: current_user.id
 	   	if !@profile.name
 	   		@name = current_user.name
@@ -38,7 +39,8 @@ class ProfilesController < ApplicationController
 		
 		if @profile.update_attributes(user_params)
 			@profile.save
-			redirect_to profile_path
+			flash[:success] = "Your profile was successfully updated!"
+			redirect_to my_profile_path
 		else
 			render 'edit'
 		end
