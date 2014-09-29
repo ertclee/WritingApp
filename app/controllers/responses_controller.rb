@@ -116,6 +116,8 @@ class ResponsesController < ApplicationController
 	    		else
 					redirect_to daily_challenge_path
 				end
+			else
+				redirect_to daily_challenge_path
 			end
 		end
 
