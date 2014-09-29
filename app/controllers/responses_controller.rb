@@ -95,10 +95,7 @@ class ResponsesController < ApplicationController
 	    	if request.fullpath.match('/daily-challenge/edit')
 	    		@challenge = WritingChallenge.daily
 	    		@responses = current_user.responses
-	    		
-	    		puts "current user is ", current_user.name
 	    		@responses.each do |response|
-	    			puts "response.writer is ", response.writer 
 	    			if response.writing_challenge_id == @challenge.id && response.writer == current_user.name
 	    				@response = response
 	    			end
@@ -106,12 +103,9 @@ class ResponsesController < ApplicationController
 	    	else
 	    		@challenge = WritingChallenge.where("slug = ? ", params[:writing_challenge_title])
 				@challenge = @challenge[0]
-				puts "challenge is ", @challenge.inspect
 				@responses = Response.where("slug = ? AND writer = ?", params[:writing_challenge_title], current_user.name)
-				puts "responses are ", @responses.inspect
 				@responses.each do|res|
 					@response = res
-					puts "response is ", @response.inspect
 				end
 	    	end
 	    end

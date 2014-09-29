@@ -12,6 +12,9 @@ class WritingChallengesController < ApplicationController
       	end 
 	end
 
+	def new
+		@challenge = WritingChallenge.new
+	end
 
 	def create
 		@challenge = WritingChallenge.new(challenge_params)

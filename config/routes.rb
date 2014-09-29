@@ -17,24 +17,25 @@ Rails.application.routes.draw do
 
   root to: "responses#index" #{}"responses#new", :writing_challenge_id => '3'
   
-  
   resources :writing_challenges , :path => 'writing-challenges', param: :title do
     resources :responses, :path => '/', :path_names => {new: 'new-response'}
   end
   
   resources :profiles, only: [:index, :create, :new, :show, :update, :destroy]
+  
   get "me/history", to: 'writing_challenges#history', as: :my_history
   get "me/profile", to: 'profiles#edit', as: :my_profile
+  get "writing_challenges/history/:date", to: 'writing_challenges#re_history'
+  get "daily-challenge", to: 'responses#new', as: :daily_challenge
+  get "daily-challenge/edit", to: 'responses#edit', as: :edit_daily_challenge
   
+  # URLs used for asynchronous form validations.
   get "/users/check-unique-username", to: 'users#check_unique_username', as: :check_unique_username
   get "/users/check-if-email-confirmed", to: 'users#check_if_email_confirmed', as: :check_if_email_confirmed
   get "/users/check-if-email-exists", to: 'users#check_if_email_exists', as: :check_if_email_exists
   get "/users/password-match", to: 'users#password_match?', as: :password_match  
   get "/users/password-correct", to: 'users#password_correct?', as: :password_correct
-  get "writing_challenges/history/:date", to: 'writing_challenges#re_history'
-  get "daily-challenge", to: 'responses#new', as: :daily_challenge
-  get "daily-challenge/edit", to: 'responses#edit', as: :edit_daily_challenge
-  
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
