@@ -2,7 +2,7 @@ class ResponsesController < ApplicationController
 	before_filter :auth_user, only: [:create]
 	before_filter :daily_challenge, only: [:new]
 	before_filter :edit_daily_challenge, only: [:edit]
-	
+	before_filter :daily_challenge_redirect, only: [:index]
 	def index
 		@challenge = WritingChallenge.new
 		render "Writing_challenges/new.html.erb"
@@ -54,24 +54,6 @@ class ResponsesController < ApplicationController
 	  	else
 	    	render "edit"
 	  	end
-	end
-
-	def daily_challenge_redirect
-		if current_user
-			@edit_daily_challenge = false
-			@responses = current_user.responses
-			@challenge = WritingChallenge.daily
-			@responses.each do |response|
-    			if response.writing_challenge_id == @challenge.id
-    				@edit_daily_challenge = true
-    			end
-    		end
-    		if @edit_daily_challenge
-    			redirect_to edit_daily_challenge_path
-    		else
-				redirect_to daily_challenge_path
-			end
-		end
 	end
 
 	private
@@ -133,6 +115,24 @@ class ResponsesController < ApplicationController
 				end
 	    	end
 	    end
+
+	    def daily_challenge_redirect
+			if current_user
+				@edit_daily_challenge = false
+				@responses = current_user.responses
+				@challenge = WritingChallenge.daily
+				@responses.each do |response|
+	    			if response.writing_challenge_id == @challenge.id
+	    				@edit_daily_challenge = true
+	    			end
+	    		end
+	    		if @edit_daily_challenge
+	    			redirect_to edit_daily_challenge_path
+	    		else
+					redirect_to daily_challenge_path
+				end
+			end
+		end
 
 	    def auth_user
 	    	@challenge = WritingChallenge.where("slug = ? ", params[:writing_challenge_title])

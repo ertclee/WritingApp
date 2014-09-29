@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
-  root to: "responses#daily_challenge_redirect" #{}"responses#new", :writing_challenge_id => '3'
+  root to: "responses#index" #{}"responses#new", :writing_challenge_id => '3'
   
   
   resources :writing_challenges , :path => 'writing-challenges', param: :title do
