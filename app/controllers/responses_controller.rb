@@ -2,10 +2,10 @@ class ResponsesController < ApplicationController
 	before_filter :auth_user, only: [:create]
 	before_filter :daily_challenge, only: [:new]
 	before_filter :edit_daily_challenge, only: [:edit]
-	before_action :daily_challenge_redirect, only: [:index]
 	
 	def index
 		@challenge = WritingChallenge.new
+		daily_challenge_redirect
 	end
 
 	def new
@@ -101,6 +101,7 @@ class ResponsesController < ApplicationController
 	    end
 
 	    def daily_challenge_redirect
+	    	puts "enters"
 			if current_user
 				@edit_daily_challenge = false
 				@responses = current_user.responses
