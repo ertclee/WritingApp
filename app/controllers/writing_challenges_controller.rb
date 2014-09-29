@@ -20,7 +20,7 @@ class WritingChallengesController < ApplicationController
 		@challenge = WritingChallenge.new(challenge_params)
 		respond_to do |format|
 			if @challenge.save
-				format.html { redirect_to @challenge, notice: 'A new writing challenge was successfully created.' }
+				format.html { redirect_to daily_challenge_path }
 				format.json { render :show, status: :created, location: @challenge }
 			else
 				format.html { render :new }

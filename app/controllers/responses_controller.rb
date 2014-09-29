@@ -5,7 +5,6 @@ class ResponsesController < ApplicationController
 	before_filter :daily_challenge_redirect, only: [:index]
 	def index
 		@challenge = WritingChallenge.new
-		render "Writing_challenges/new.html.erb"
 	end
 
 	def new

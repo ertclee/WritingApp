@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
 
   root to: "responses#index" #{}"responses#new", :writing_challenge_id => '3'
-  
+  get 'writing-challenges/new', to: 'writing_challenges#new'
   resources :writing_challenges , :path => 'writing-challenges', param: :title do
     resources :responses, :path => '/', :path_names => {new: 'new-response'}
   end
