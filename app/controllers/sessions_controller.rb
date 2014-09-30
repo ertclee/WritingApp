@@ -1,6 +1,6 @@
 class SessionsController < Devise::SessionsController
 	def create
-		@response = Response.last
+		@response = Response.last #When user submits a response and tries to log in, it gets the response that the user just created. This isn't the right solution. 
 		@user = User.where("email = ? ", params["user"]["email"])
 		@daily_challenge = WritingChallenge.daily
 		@user = @user[0]

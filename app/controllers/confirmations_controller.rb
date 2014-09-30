@@ -18,8 +18,7 @@ class ConfirmationsController < Devise::ConfirmationsController
     digested_token = Devise.token_generator.digest(self, :confirmation_token, @original_token)
     self.resource = resource_class.find_by_confirmation_token! digested_token
     resource.assign_attributes(permitted_params)
-    @response = Response.last
-    
+    @response = Response.last # same thing as the one in sessionsController, it tries to get the last response that the user submitted without having an account. Wrong Solution. 
     if @response.present? && @response.writer.nil?
       @response.update_attribute(:writer, params["user"]["name"])
     end

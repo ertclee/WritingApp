@@ -26,6 +26,7 @@ class User < ActiveRecord::Base
   end
 
   def after_confirmation
+    puts "does it enter the confirmation????"
     @user = User.last
     @response = Response.last
     if @response.present? && @response.writer == @user.name

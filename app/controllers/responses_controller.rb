@@ -2,6 +2,7 @@ class ResponsesController < ApplicationController
 	before_filter :auth_user, only: [:create]
 	before_filter :daily_challenge, only: [:new]
 	before_filter :check_if_daily_challenge, only: :edit
+	
 	def index
 		@challenge = WritingChallenge.new
 		daily_challenge_redirect
@@ -18,7 +19,7 @@ class ResponsesController < ApplicationController
 	    @challenge = WritingChallenge.where("slug = ? ", params[:writing_challenge_title])
 	    @challenge = @challenge[0]
 	    puts "challenge is ", @challenge.inspect
-	    @response = Response.last
+	    @response = Response.last #retrieves the last response before actually creating the response. 
 	    @response.update_attribute(:writing_challenge_id, @challenge.id)
 	    @response.update_attribute(:time, Date.today)
 	    @response.update_attribute(:wordcount, @response.response.split.size)
