@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  devise_for :users, :controllers => {:confirmations => 'confirmations', :registrations => "registrations", :passwords => "passwords"}, :path => '/', :path_names => {:sign_up => 'register', :sign_in => 'login'}
+  devise_for :users, :controllers => {:confirmations => 'confirmations', :registrations => "registrations", :passwords => "passwords", :sessions => "sessions"}, :path => '/', :path_names => {:sign_up => 'register', :sign_in => 'login'}
   
   devise_scope :user do
     patch "/confirm", to: "confirmations#confirm"
@@ -27,7 +27,7 @@ Rails.application.routes.draw do
   get "me/profile", to: 'profiles#edit', as: :my_profile
   get "writing_challenges/history/:date", to: 'writing_challenges#re_history'
   get "daily-challenge", to: 'responses#new', as: :daily_challenge
-  get "daily-challenge/edit", to: 'responses#edit', as: :edit_daily_challenge
+  get "daily-challenge/edit", to: 'responses#edit_daily_challenge', as: :edit_daily_challenge
   
   # URLs used for asynchronous form validations.
   get "/users/check-unique-username", to: 'users#check_unique_username', as: :check_unique_username
@@ -35,7 +35,7 @@ Rails.application.routes.draw do
   get "/users/check-if-email-exists", to: 'users#check_if_email_exists', as: :check_if_email_exists
   get "/users/password-match", to: 'users#password_match?', as: :password_match  
   get "/users/password-correct", to: 'users#password_correct?', as: :password_correct
-
+  get "/about", to: 'writing_challenges#about', as: :about_page
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

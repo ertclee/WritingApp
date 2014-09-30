@@ -137,6 +137,7 @@ ActiveRecord::Schema.define(version: 20140928052027) do
     t.string   "slug"
   end
 
+  add_index "writing_challenges", ["exercise"], name: "index_writing_challenges_on_exercise", using: :btree
   add_index "writing_challenges", ["slug"], name: "index_writing_challenges_on_slug", using: :btree
 
 end

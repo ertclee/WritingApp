@@ -1,6 +1,6 @@
 class WritingChallengesController < ApplicationController
 	before_action :authenticate_user!, :except => [:index, :new, :create, :show]
-	before_action :authenticate, :only => :new
+	before_action :authenticate_admin, :only => :new
 	def index
 		@challenges = WritingChallenge.paginate(:page => params[:page])#Kaminari.paginate_array(WritingChallenge.order(:created_at)).page(params[:page])
 		if current_user
@@ -97,6 +97,10 @@ class WritingChallengesController < ApplicationController
 		end 
 	end
 	
+	def about
+		render 'about.html.erb'
+	end
+
 	private
 	def challenge_params
   		params.require(:writing_challenge).permit(:exercise)
@@ -110,7 +114,7 @@ class WritingChallengesController < ApplicationController
 	end
 
 	protected
-	def authenticate
+	def authenticate_admin
 		authenticate_or_request_with_http_basic do |username, password|
 			username == "admin" && password == "writersmob2014"
 		end
