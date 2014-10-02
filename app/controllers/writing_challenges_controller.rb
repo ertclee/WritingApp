@@ -59,7 +59,7 @@ class WritingChallengesController < ApplicationController
 		@profile = Profile.find_by user_id: current_user.id
 		current_user.target_goal = @profile.daily_goal # comment this line.
 		@max_value_for_xAxis = days_in_month(Time.now.month) # variable used for highcharts.
-		@localtime = []
+		@localtime = Hash.new
 		@challenges_this_month.each do |challenge| 
 			if challenge && challenge.responses
 				challenge.responses.each do |res|
@@ -67,9 +67,9 @@ class WritingChallengesController < ApplicationController
 						@month = res.time.to_date.strftime('%-m')
 						@day = res.time.to_date.strftime('%d')
 						@exact_time = res.updated_at.in_time_zone(cookies["browser.timezone"])
-						# puts 'response is ', res.inspect
-						# puts 'response updated at ', res.updated_at.in_time_zone(cookies["browser.timezone"])
-						@localtime.push(@exact_time.localtime.strftime('%H:%M'))
+						puts 'response is ', res.inspect
+						puts 'response updated at ', res.updated_at.in_time_zone(cookies["browser.timezone"])
+						@localtime[res.slug] = @exact_time.localtime.strftime('%H:%M')
 						
 						@challenges_this_month_hash["#{res.time.to_date.strftime('%d-%m-%Y')}"] += res.response.split.size
 					end
@@ -103,7 +103,7 @@ class WritingChallengesController < ApplicationController
 							@exact_time = res.updated_at.in_time_zone(cookies["browser.timezone"])
 							# puts 'response is ', res.inspect
 							# puts 'response updated at ', res.updated_at.in_time_zone(cookies["browser.timezone"])
-							@localtime.push(@exact_time.localtime.strftime('%H:%M'))
+							@localtime[res.slug] = @exact_time.localtime.strftime('%H:%M')
 							@word_count_since_signup += res.response.split.size
 							@word_count_for_previous_months["#{res.time.to_date.strftime('%d-%m-%Y')}"] += res.response.split.size
 						end

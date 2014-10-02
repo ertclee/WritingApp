@@ -6,12 +6,12 @@
 						<% if current_user_response.writer == current_user.name && res.id == current_user_response.id %>
 							<td style="border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; padding: 14px; width: 850px;">
 							<% if @todays_date == current_user_response.time %>
-								<div style="color: #C9C9C9">Today, <%= @localtime[k] %>, <%= res.wordcount %> words</div>
+								<div style="color: #C9C9C9">Today, <%= @localtime[res.slug] %>, <%= res.wordcount %> words</div>
 							<% elsif @todays_date.day - res.time.day == 1 %>
 								<div style="color: #C9C9C9">Yesterday, <%= res.wordcount %> words</div>
 							<% else %>
 								<!-- Does it enter this case? -->
-								<div style="color: #C9C9C9"><%= @day + " " + Date::MONTHNAMES[@month.to_i] + ', ' + @localtime[i] %>, <%= res.wordcount %> words</div>
+								<div style="color: #C9C9C9"><%= @day + " " + Date::MONTHNAMES[@month.to_i] + ', ' + @localtime[res.slug] %>, <%= res.wordcount %> words</div>
 							<% end %>
 								<%= link_to challenge.exercise, edit_writing_challenge_response_path(challenge, res), 'data-no-turbolink' => true, :class => 'exercise', :style => "text-decoration: underline;" %>
 							</td>
