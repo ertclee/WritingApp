@@ -26,8 +26,7 @@ class User < ActiveRecord::Base
   end
 
   def after_confirmation
-    puts "start of after confirm!!!!!!!!!"
-    @user = User.last #Need to fix this. 
+    @user = self
     @ip_address = local_ip
     @responses_with_matching_writers = []
     @responses = Response.all

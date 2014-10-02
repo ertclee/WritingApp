@@ -27,6 +27,7 @@ class ConfirmationsController < Devise::ConfirmationsController
       end
     end 
     @response = find_response_with_matching_ip_address(@responses_with_no_writers, @ip_address)
+    
     if @response.present? && @response.writer.nil?
       @response.update_attribute(:writer, params["user"]["name"])
     end
@@ -35,7 +36,6 @@ class ConfirmationsController < Devise::ConfirmationsController
       puts "about to confirm!!!!!!!!!"
       self.resource.confirm!
       set_flash_message :notice, :confirmed
-      
       sign_in_and_redirect resource_name, resource
     else
       puts "about to confirm!!!!!!!!! else else"

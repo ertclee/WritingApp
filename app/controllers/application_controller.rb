@@ -31,8 +31,6 @@ class ApplicationController < ActionController::Base
     nil
   end
 
-  
-
   def after_sign_out_path_for(resource)
     daily_challenge_path
   end
