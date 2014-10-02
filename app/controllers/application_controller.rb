@@ -18,7 +18,10 @@ class ApplicationController < ActionController::Base
     render 'devise/registrations/show.html.erb'
   end
 
-  
+  def after_sign_in_path_for(resource)
+    puts "enters here"
+    daily_challenge_path
+  end
 
   def after_sign_up_path_for(resource)
     profile_path(resource)
