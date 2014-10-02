@@ -18,8 +18,16 @@ class ResponsesController < ApplicationController
 	def create
 	    @challenge = WritingChallenge.where("slug = ? ", params[:writing_challenge_title])
 	    @challenge = @challenge[0]
-	    puts "challenge is ", @challenge.inspect
-	    @response = Response.last #retrieves the last response before actually creating the response. 
+	    #puts "challenge is ", @challenge.inspect
+	    @ip_address = local_ip
+	    @responses_with_no_writers = []
+		@responses = Response.all
+		@responses.each do |response|
+			if response.writer.nil? 
+				@responses_with_no_writers.push(response)
+			end
+		end 
+		@response = find_response_with_matching_ip_address(@responses_with_no_writers, @ip_address)
 	    @response.update_attribute(:writing_challenge_id, @challenge.id)
 	    @response.update_attribute(:time, Date.today)
 	    @response.update_attribute(:wordcount, @response.response.split.size)
@@ -113,10 +121,8 @@ class ResponsesController < ApplicationController
 			@edit_daily_challenge = false
 			@challenge = WritingChallenge.where("slug = ? ", params[:writing_challenge_title])
 			@challenge = @challenge[0]
-			puts "challenge is ", @challenge.inspect
 			@responses = Response.where("slug = ? AND writer = ?", params[:writing_challenge_title], current_user.name)
 			@responses.each do|res|
-				puts "boolean is ", res.writing_challenge_id == @daily_challenge.id
 				if res.writing_challenge_id == @daily_challenge.id
 					@edit_daily_challenge = true
 				end
@@ -126,13 +132,16 @@ class ResponsesController < ApplicationController
 	    		redirect_to edit_daily_challenge_path
 	    	end
 		end
+
 	    def auth_user
 	    	@challenge = WritingChallenge.where("slug = ? ", params[:writing_challenge_title])
+	    	@ip_address = local_ip
 		    @response = Response.new(response_params)
 		    @response.writing_challenge_id = @challenge[0].id
 		    @response.slug = @challenge[0].slug
 		    @response.time = Date.today
 	    	@response.wordcount = @response.response.split.size
+	    	@response.ip_address = @ip_address
 	    	@response.save!
 	    	redirect_to new_user_registration_path unless user_signed_in?
 	    end

@@ -34,4 +34,29 @@ class ApplicationController < ActionController::Base
     daily_challenge_path
   end
   
+  require 'socket'
+  def local_ip
+    orig, Socket.do_not_reverse_lookup = Socket.do_not_reverse_lookup, true  # turn off reverse DNS resolution temporarily
+
+    UDPSocket.open do |s|
+      s.connect '64.233.187.99', 1
+      s.addr.last
+    end
+  ensure
+    Socket.do_not_reverse_lookup = orig
+  end
+
+  def find_response_with_matching_ip_address(responses, local_ip)
+    puts "enters here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+    responses.each do |response|
+      puts "response ip adress is ", response.ip_address
+      puts "local_ip is ", local_ip
+      if response.ip_address == local_ip
+        puts "enters the equality of ip address!!!!!!!"
+        puts "response is ", response
+        return response
+      end
+    end
+    puts "end of the loop"
+  end
 end

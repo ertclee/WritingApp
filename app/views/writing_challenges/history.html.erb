@@ -23,13 +23,19 @@
       <div id="words-since-signup">
         <%= @word_count_since_signup %> 
         <span id="words-since-letters">
-          Words Since <%=Date::MONTHNAMES[@start_date.month] %> '<%=@yy%>
+          Words Since <%=Date::MONTHNAMES[@signup_date.to_date.month] %> '<%=@yy%>
         </span>
         <br />
         <%= @total_of_month %>
         <span id="words-this-month">
           Words this month
         </span>
+      </div>
+      <div style="margin-left:35%;">
+        <% if @start_date.to_date > @signup_date.to_date %>
+          <%=link_to "< Previous 30 days", "javascript:void(0);", :onclick=>"window.location = '/me/history?date=#{@start_date.beginning_of_month - 1.month}'"%>
+        <%end%>
+        
       </div>
 		  <%= render :partial => 'past_writing_challenges_i_completed', :locals => { :challenges => @challenges } %>
 	</tbody>
@@ -124,7 +130,7 @@
           exporting: { enabled: false },
           series: [{
               name: 'Number of words',
-              data: <%= raw @daily_challenges %>,
+              data: <%= raw @challenges_this_month_hash %>,
           }],
           credits: { 
             enabled: false

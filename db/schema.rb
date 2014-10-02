@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140928052027) do
+ActiveRecord::Schema.define(version: 20140930160014) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,6 +97,7 @@ ActiveRecord::Schema.define(version: 20140928052027) do
     t.date     "time"
     t.string   "wordcount"
     t.string   "slug"
+    t.string   "ip_address"
   end
 
   add_index "responses", ["slug"], name: "index_responses_on_slug", using: :btree

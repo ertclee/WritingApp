@@ -25,15 +25,6 @@ class User < ActiveRecord::Base
     self.errors.add(:base, 'User with that email already exists. Please try another email address.') if User.where(:email => self.email).exists?
   end
 
-  def after_confirmation
-    puts "does it enter the confirmation????"
-    @user = User.last
-    @response = Response.last
-    if @response.present? && @response.writer == @user.name
-      @user.responses << @response
-    end
-  end
-
   private
     def add_profile
       self.build_profile(:daily_email_reminder => true, :daily_goal => 100)

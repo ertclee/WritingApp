@@ -10,6 +10,7 @@
 							<% elsif @todays_date.day - res.time.day == 1 %>
 								<div style="color: #C9C9C9">Yesterday, <%= res.wordcount %> words</div>
 							<% else %>
+								<!-- Does it enter this case? -->
 								<div style="color: #C9C9C9"><%= @day + " " + Date::MONTHNAMES[@month.to_i] + ', ' + @localtime[i] %>, <%= res.wordcount %> words</div>
 							<% end %>
 								<%= link_to challenge.exercise, edit_writing_challenge_response_path(challenge, res), 'data-no-turbolink' => true, :class => 'exercise', :style => "text-decoration: underline;" %>

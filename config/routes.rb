@@ -25,7 +25,6 @@ Rails.application.routes.draw do
   
   get "me/history", to: 'writing_challenges#history', as: :my_history
   get "me/profile", to: 'profiles#edit', as: :my_profile
-  get "writing_challenges/history/:date", to: 'writing_challenges#re_history'
   get "daily-challenge", to: 'responses#new', as: :daily_challenge
   get "daily-challenge/edit", to: 'responses#edit_daily_challenge', as: :edit_daily_challenge
   
