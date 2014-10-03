@@ -70,7 +70,7 @@ class WritingChallengesController < ApplicationController
 						puts 'response is ', res.inspect
 						puts 'response updated at ', res.updated_at.in_time_zone(cookies["browser.timezone"])
 						@localtime[res.slug] = @exact_time.localtime.strftime('%H:%M')
-						
+						puts "this is my size: ", res.response.split.size
 						@challenges_this_month_hash["#{res.time.to_date.strftime('%d-%m-%Y')}"] += res.response.split.size
 					end
 				end
