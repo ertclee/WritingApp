@@ -8,7 +8,6 @@ class SessionsController < Devise::SessionsController
 		puts @user.inspect
 		@no_duplicate = true
 		@ip_address = local_ip
-		puts "ip address is  ", @ip_address
 		@responses_with_no_writers = []
 		@responses = Response.all
 		@responses.each do |response|
@@ -16,9 +15,7 @@ class SessionsController < Devise::SessionsController
 				@responses_with_no_writers.push(response)
 			end
 		end
-		puts "responses with no writers are ", @responses_with_no_writers.inspect
 	    @response = find_response_with_matching_ip_address(@responses_with_no_writers, @ip_address)
-	    puts "response is ", @response.inspect
 	    if @response.present? 
 	    	if @response.writer.nil? 
 		    	puts "enters response present and response writer nil"

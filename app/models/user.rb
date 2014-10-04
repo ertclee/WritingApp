@@ -4,11 +4,37 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :confirmable
   has_many :responses
-  has_many :writing_challenges
   has_one :profile
   scope :confirmed, -> { where("confirmed_at is NOT NULL") }  
   before_create :add_profile
-  
+
+  def words_since_signup
+    count = 0
+    self.responses.each { |response| count += response.wordcount.to_i }
+    count
+  end
+
+  def writing_challenges
+    challenges = []
+    self.responses.each {|response| challenges.push response.writing_challenge}
+    challenges
+  end
+
+  def words_this_month
+    count = 0
+    self.responses.where('extract(month from created_at) = ?', Time.now.month).each { |response| count += response.wordcount.to_i }
+    count
+  end
+
+  def words_by_day(month)
+    number_of_words = []
+    self.responses.where('extract(month from created_at) = ?', month).each { |response| number_of_words.push(response.wordcount.to_i) }
+    number_of_words
+  end
+
+  def signup_date
+    self.created_at.localtime.strftime('%Y-%m-%d')
+  end
 
   def password_required?
     super if confirmed?
@@ -39,22 +65,6 @@ class User < ActiveRecord::Base
     if @response.present?
       @user.responses << @response
     end
-  end
-
-  def words_since_signup
-    count = 0
-    self.responses.each { |response| count+= response.wordcount.to_i }
-    count
-  end
-
-  def words_this_month
-    count = 0
-    self.responses.where('extract(month from created_at) = ?', Time.now.month).each { |response| count+= response.wordcount.to_i }
-    count
-  end
-
-  def signup_date
-    self.created_at.localtime.strftime('%Y-%m-%d')
   end
   
   private
