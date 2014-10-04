@@ -41,6 +41,22 @@ class User < ActiveRecord::Base
     end
   end
 
+  def words_since_signup
+    count = 0
+    self.responses.each { |response| count+= response.wordcount.to_i }
+    count
+  end
+
+  def words_this_month
+    count = 0
+    self.responses.where('extract(month from created_at) = ?', Time.now.month).each { |response| count+= response.wordcount.to_i }
+    count
+  end
+
+  def signup_date
+    self.created_at.localtime.strftime('%Y-%m-%d')
+  end
+  
   private
     def add_profile
       self.build_profile(:daily_email_reminder => true, :daily_goal => 100)
@@ -59,16 +75,10 @@ class User < ActiveRecord::Base
     end
 
     def find_response_with_matching_ip_address(responses, local_ip)
-      puts "enters here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
       responses.each do |response|
-        puts "response ip adress is ", response.ip_address
-        puts "local_ip is ", local_ip
         if response.ip_address == local_ip
-          puts "enters the equality of ip address!!!!!!!"
-          puts "response is ", response
           return response
         end
       end
-      puts "end of the loop"
     end
 end

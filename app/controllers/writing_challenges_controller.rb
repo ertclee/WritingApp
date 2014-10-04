@@ -1,6 +1,8 @@
 class WritingChallengesController < ApplicationController
 	before_action :authenticate_user!, :except => [:index, :new, :create, :show]
 	before_action :authenticate_admin, :only => :new
+	before_action :set_todays_date, :only => :history
+
 	def index
 		@challenges = WritingChallenge.paginate(:page => params[:page])#Kaminari.paginate_array(WritingChallenge.order(:created_at)).page(params[:page])
 		if current_user
@@ -35,17 +37,11 @@ class WritingChallengesController < ApplicationController
 	end
   
 	def history
-		if params[:date]
-			@todays_date = params[:date].to_date
-		else
-			@todays_date = Date.today
-		end
 		@daily_challenge = WritingChallenge.daily
+		@signup_month_year = current_user.created_at.localtime.strftime("%B '%y")
 		@profile = Profile.find_by user_id: current_user.id
-		@todays_date = Date.today
 		@signup_date = current_user.created_at.localtime.strftime('%Y-%m-%d')
 		@start_date = Date.new(@todays_date.cwyear, @todays_date.mon, BEGINNING_OF_THE_MONTH )
-		puts "start date is ", @start_date
 		@end_time = @start_date.to_date + 1.month
 		@yy = Time.now.strftime('%g') # variable used for highcharts
 		@total_of_month = 0
@@ -67,10 +63,10 @@ class WritingChallengesController < ApplicationController
 						@month = res.time.to_date.strftime('%-m')
 						@day = res.time.to_date.strftime('%d')
 						@exact_time = res.updated_at.in_time_zone(cookies["browser.timezone"])
-						puts 'response is ', res.inspect
-						puts 'response updated at ', res.updated_at.in_time_zone(cookies["browser.timezone"])
+						# puts 'response is ', res.inspect
+						# puts 'response updated at ', res.updated_at.in_time_zone(cookies["browser.timezone"])
 						@localtime[res.slug] = @exact_time.localtime.strftime('%H:%M')
-						puts "this is my size: ", res.response.split.size
+						# puts "this is my size: ", res.response.split.size
 						@challenges_this_month_hash["#{res.time.to_date.strftime('%d-%m-%Y')}"] += res.response.split.size
 					end
 				end
@@ -80,9 +76,9 @@ class WritingChallengesController < ApplicationController
 			@total_of_month += val
 		end
 
-		puts "time parsed for signup date is ", Time.parse(@signup_date)
-		puts "start date is ", @start_date
-		puts "boolean value is ", Time.parse(@signup_date) < @start_date
+		# puts "time parsed for signup date is ", Time.parse(@signup_date)
+		# puts "start date is ", @start_date
+		# puts "boolean value is ", Time.parse(@signup_date) < @start_date
 
 		@word_count_for_previous_months = Hash.new(0)
 	
@@ -123,7 +119,7 @@ class WritingChallengesController < ApplicationController
 
 		@challenges_this_month_hash = @challenges_this_month_hash.map {|k,v| [k,v]}
 		@all_responses_to_writing_challenges = Response.where('user = ?', current_user.name)
-		@paginated_arrays = Kaminari.paginate_array(@all_responses_to_writing_challenges).page(params[:page])
+		#@paginated_arrays = Kaminari.paginate_array(@all_responses_to_writing_challenges).page(params[:page])
 		# respond_to do |format|
 		#   format.html # index.html.erb
 		#   format.json { render json: @word_count_for_previous_months}
@@ -137,7 +133,7 @@ class WritingChallengesController < ApplicationController
 
 	private
 	def challenge_params
-  		params.require(:writing_challenge).permit(:exercise)
+  		params.require(:writing_challenge).permit(:exercise, :user_id)
 	end
 
 	COMMON_YEAR_DAYS_IN_MONTH = [nil, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
@@ -146,11 +142,15 @@ class WritingChallengesController < ApplicationController
 	   return 29 if month == 2 && Date.gregorian_leap?(year)
 	   COMMON_YEAR_DAYS_IN_MONTH[month]
 	end
-    
-    def calculate(challenges_hash, challenges)
-    end
+  
+    def set_todays_date
+  		if params[:date]
+  			@todays_date = params[:date] 
+  		else
+  			@todays_date = Date.today
+  		end
+  	end
 
-	protected
 	def authenticate_admin
 		authenticate_or_request_with_http_basic do |username, password|
 			username == "admin" && password == "writersmob2014"
