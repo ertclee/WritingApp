@@ -20,7 +20,7 @@
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
     <div id="container" style="margin: 0; display: inline-block; margin-bottom: 35px;"></div>
-      <span id="date-today"><%= @signup_month_year %></span>
+      <span id="date-today"><%= @this_month %></span>
       <div id="words-since-signup">
         <%= current_user.words_since_signup %> 
         <span id="words-since-letters">
@@ -87,13 +87,13 @@
             title: {
               text: null
             },
-            max: <%= raw @max_value_for_yaxis %>,
+            max: <%= raw @max_value_for_yaxis || 100 %>,
             plotLines: [{
                 color: '#e8c1c1',
                 width: 2,
-                value: <%= raw current_user.target_goal || 100 %>, // Need to set this probably as a var.
+                value: <%= raw @max_value_for_yaxis || 100 %>, // Need to set this probably as a var.
                 label: { 
-                  text: <%= raw current_user.target_goal || 100 %> + ' words a day',
+                  text: <%= raw @max_value_for_yaxis || 100 %> + ' words a day',
                   align: 'right',
                   x: -10,
                   y: -1,
