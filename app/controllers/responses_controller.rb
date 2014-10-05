@@ -72,6 +72,9 @@ class ResponsesController < ApplicationController
 
 	def update
 		@response = Response.find(params[:id])
+		puts "Updated AT:"
+	  @response.updated_at
+		puts "end UpdatedAt printlog"
 		@writing_challenge_title = params[:writing_challenge_title]
 	  	if @response.update_attributes(response_params)
 	  		@response.update(:time => Date.today, :wordcount => @response.response.split.size)
