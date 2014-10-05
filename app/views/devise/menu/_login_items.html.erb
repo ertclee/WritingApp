@@ -1,13 +1,23 @@
 <% if user_signed_in? %>
-  <li style="float: right; list-style-type: none; margin-left: 20px;">
-  <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>        
-  </li>
-  <li>
-      <%= link_to('Profile and settings', my_profile_path, 'data-no-turbolink' => true) %>
-  </li>
+	<div class="container-fluid">
+		<div class="nav-collapse" style="float:right">
+			<ul class="nav">
+				<li class="dropdown">
+					<a data-toggle="dropdown" class="dropdown-toggle" href="#"><%= image_tag(@profile.image.url(:small), :style => "border-radius: 50%; width: 50px; height: 50px", :class => "missing_photo") %> <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li style="float: right; list-style-type: none; margin-left: 20px;" class="trigger">
+							<%= link_to('Logout', destroy_user_session_path, :method => :delete) %>        
+						</li>
+						<li>
+							<%= link_to('Profile and settings', my_profile_path, 'data-no-turbolink' => true) %>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
 <% else %>
   <li style="float: right; list-style-type: none; margin-left: 20px;">
-  <%= link_to('Login', new_user_session_path, 'data-no-turbolink' => true)  %>  
+  	<%= link_to('Login', new_user_session_path, 'data-no-turbolink' => true)  %>  
   </li>
-  
 <% end %>
