@@ -38,10 +38,9 @@ class User < ActiveRecord::Base
   end
 
   def max_value_for_yaxis
-
-    # self.responses.max_by { |a, b|  puts "longest response size is ", a.response.split.size <=> b.response.split.size }
-    # @max_value_for_users_responses = self.responses.max {|a, b| a.response.split.size <==> b.response.split.size }
-    # puts "max value is ", @max_value_for_users_responses
+    longest_response_count_so_far = 0
+    longest_response_count_so_far = self.responses.max_by { |response| response.wordcount.to_i }
+    longest_response_count_so_far.wordcount
   end
 
   def password_required?

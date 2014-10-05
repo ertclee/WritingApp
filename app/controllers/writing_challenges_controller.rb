@@ -139,7 +139,10 @@ class WritingChallengesController < ApplicationController
 		@max_value_for_xAxis = Time.days_in_month(@todays_date.mon)
 		@challenges_this_month_hash = current_user.words_by_day(@start_date)
 		@challenges_this_month_hash = @challenges_this_month_hash.map {|k,v| [k,v]}
-		@max_value_for_yaxis = current_user.max_value_for_yaxis
+		@max_value_for_yaxis = current_user.max_value_for_yaxis 
+		@profile = Profile.find_by user_id: current_user.id
+		@max_value_for_yaxis = if @max_value_for_yaxis.to_i > @profile.daily_goal.to_i then @max_value_for_yaxis.to_i else @profile.daily_goal.to_i end
+		@max_value_for_yaxis += 10
 	end
 
 	

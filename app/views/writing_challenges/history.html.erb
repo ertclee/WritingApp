@@ -87,7 +87,7 @@
             title: {
               text: null
             },
-            max: <%= raw current_user.target_goal || 100 %>,
+            max: <%= raw @max_value_for_yaxis %>,
             plotLines: [{
                 color: '#e8c1c1',
                 width: 2,
