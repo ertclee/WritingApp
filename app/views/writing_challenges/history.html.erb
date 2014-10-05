@@ -116,11 +116,7 @@
           },
           tooltip: {
                 formatter: function() {
-                  var today = new Date();
-                  var mm = today.getMonth() + 1;
-                  var yyyy = today.getFullYear();
-                  today = mm + '/' + (parseInt(this.x) + 1) + '/' + yyyy; 
-                  return this.y + " words on " + today; 
+                  return this.y + " words on " + this.key; 
                 },
                 backgroundColor: '#BFD8F5',
                 borderColor: '#BFD8F5',
