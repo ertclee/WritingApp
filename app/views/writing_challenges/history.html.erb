@@ -20,7 +20,7 @@
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
     <div id="container" style="margin: 0; display: inline-block; margin-bottom: 35px;"></div>
-      <span id="date-today"><%=Date::MONTHNAMES[@start_date.month] %> '<%=@yy%></span>
+      <span id="date-today"><%= @signup_month_year %></span>
       <div id="words-since-signup">
         <%= current_user.words_since_signup %> 
         <span id="words-since-letters">
