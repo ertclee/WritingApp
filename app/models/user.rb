@@ -22,18 +22,26 @@ class User < ActiveRecord::Base
 
   def words_this_month
     count = 0
-    self.responses.where('extract(month from created_at) = ?', Time.now.month).each { |response| count += response.wordcount.to_i }
+    self.responses.where('extract(month from updated_at) = ?', Time.now.month).each { |response| count += response.wordcount.to_i }
     count
   end
 
-  def words_by_day(month)
-    number_of_words = []
-    self.responses.where('extract(month from created_at) = ?', month).each { |response| number_of_words.push(response.wordcount.to_i) }
+  def words_by_day(start_date)
+    number_of_words = Hash.new
+    (start_date..start_date + 1.month).each { |d| number_of_words["#{d.strftime('%d-%m-%Y')}"] = 0 }
+    self.responses.each { |response| number_of_words["#{response.time.to_date.strftime('%d-%m-%Y')}"] += response.wordcount.to_i }
     number_of_words
   end
 
   def signup_date
     self.created_at.localtime.strftime('%Y-%m-%d')
+  end
+
+  def max_value_for_yaxis
+
+    # self.responses.max_by { |a, b|  puts "longest response size is ", a.response.split.size <=> b.response.split.size }
+    # @max_value_for_users_responses = self.responses.max {|a, b| a.response.split.size <==> b.response.split.size }
+    # puts "max value is ", @max_value_for_users_responses
   end
 
   def password_required?
@@ -65,22 +73,6 @@ class User < ActiveRecord::Base
     if @response.present?
       @user.responses << @response
     end
-  end
-
-  def words_since_signup
-    count = 0
-    self.responses.each { |response| count+= response.wordcount.to_i }
-    count
-  end
-
-  def words_this_month
-    count = 0
-    self.responses.where('extract(month from created_at) = ?', Time.now.month).each { |response| count+= response.wordcount.to_i }
-    count
-  end
-
-  def signup_date
-    self.created_at.localtime.strftime('%Y-%m-%d')
   end
 
   private

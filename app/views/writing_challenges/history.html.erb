@@ -132,7 +132,7 @@
           exporting: { enabled: false },
           series: [{
               name: 'Number of words',
-              data: <%= @challenges_this_month_hash %>,
+              data: <%= raw @challenges_this_month_hash %>,
           }],
           credits: { 
             enabled: false

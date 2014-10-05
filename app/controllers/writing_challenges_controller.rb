@@ -121,6 +121,7 @@ class WritingChallengesController < ApplicationController
 
 
 	# 	@challenges_this_month_hash = @challenges_this_month_hash.map {|k,v| [k,v]}
+	# 	puts "challenges this month is ", @challenges_this_month_hash
 	# 	@all_responses_to_writing_challenges = Response.where('user = ?', current_user.name)
 	# 	#@paginated_arrays = Kaminari.paginate_array(@all_responses_to_writing_challenges).page(params[:page])
 	# 	# respond_to do |format|
@@ -136,7 +137,9 @@ class WritingChallengesController < ApplicationController
 		@this_month = @start_date.strftime("%B '%y")
 		@challenges = current_user.writing_challenges
 		@max_value_for_xAxis = Time.days_in_month(@todays_date.mon)
-		@challenges_this_month_hash = current_user.words_by_day(@todays_date.mon)
+		@challenges_this_month_hash = current_user.words_by_day(@start_date)
+		@challenges_this_month_hash = @challenges_this_month_hash.map {|k,v| [k,v]}
+		@max_value_for_yaxis = current_user.max_value_for_yaxis
 	end
 
 	

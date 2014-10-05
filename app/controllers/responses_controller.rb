@@ -61,7 +61,6 @@ class ResponsesController < ApplicationController
     	if request.fullpath.match('/daily-challenge/edit')
     		@challenge = WritingChallenge.daily
     		@responses = current_user.responses
-    		puts "@responses are ", @responses.inspect
     		@responses.each do |response|
     			if response.writing_challenge_id == @challenge.id && response.writer == current_user.name
     				@response = response
