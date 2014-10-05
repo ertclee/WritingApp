@@ -15,33 +15,32 @@
 </div>
 
 <div style="max-width: 1165px; margin: 10px auto; position: relative; padding: 10px 10px 0 10px;">
-
-  <table id="exercise-list" style="margin-left: 153px;">
-  		<tbody class="page">
-      <script src="http://code.highcharts.com/highcharts.js"></script>
-      <script src="http://code.highcharts.com/modules/exporting.js"></script>
-      <div id="container" style="margin-top: 0; display: inline-block; margin-bottom: 35px;"></div>
-        <span id="date-today"><%= @this_month %></span>
-        <div id="words-since-signup">
-          <%= current_user.words_since_signup %> 
-          <span id="words-since-letters">
-            Words Since <%= @signup_month_year %>
-          </span>
-          <br />
-          <%= current_user.words_this_month %>
-          <span id="words-this-month">
-            Words this month
-          </span>
-        </div>
-        <div style="margin-left:35%;">
-          <% if @start_date.to_date > current_user.signup_date.to_date %>
-            <%=link_to "< Previous 30 days", "javascript:void(0);", :onclick=>"window.location = '/me/history?date=#{@start_date.beginning_of_month - 1.month}'"%>
-          <%end%>
-
-        </div>
-  		  <%= render :partial => 'past_writing_challenges_i_completed'  %>
-  	</tbody>
-  </table>
+<table id="exercise-list" style="margin-left: 153px;">
+		<tbody class="page">
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <div id="container" style="margin: 0; display: inline-block; margin-bottom: 35px;"></div>
+      <span id="date-today"><%=Date::MONTHNAMES[@start_date.month] %> '<%=@yy%></span>
+      <div id="words-since-signup">
+        <%= current_user.words_since_signup %> 
+        <span id="words-since-letters">
+          Words Since <%= @signup_month_year %> 
+        </span>
+        <br />
+        <%= current_user.words_this_month %>
+        <span id="words-this-month">
+          Words this month
+        </span>
+      </div>
+      <div style="margin-left:35%;">
+        <% if @start_date.to_date > current_user.signup_date.to_date %>
+          <%=link_to "< Previous 30 days", "javascript:void(0);", :onclick=>"window.location = '/me/history?date=#{@start_date.beginning_of_month - 1.month}'"%>
+        <%end%>
+        
+      </div>
+		  <%= render :partial => 'past_writing_challenges_i_completed' %>
+	</tbody>
+</table>
 </div>
 
 <script>

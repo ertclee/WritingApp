@@ -35,6 +35,7 @@ class WritingChallengesController < ApplicationController
 	def show
 		
 	end
+
 	# def history
 	# 	# get the responses with the most & least word count
 	# 	@daily_challenge = WritingChallenge.daily
@@ -80,6 +81,7 @@ class WritingChallengesController < ApplicationController
 	# 	# puts "start date is ", @start_date
 	# 	# puts "boolean value is ", Time.parse(@signup_date) < @start_date
 
+
 	# 	@word_count_for_previous_months = Hash.new(0)
 	
 
@@ -117,6 +119,7 @@ class WritingChallengesController < ApplicationController
 	# 		@challenges_this_month_hash = @word_count_for_previous_months
 	# 	end
 
+
 	# 	@challenges_this_month_hash = @challenges_this_month_hash.map {|k,v| [k,v]}
 	# 	@all_responses_to_writing_challenges = Response.where('user = ?', current_user.name)
 	# 	#@paginated_arrays = Kaminari.paginate_array(@all_responses_to_writing_challenges).page(params[:page])
@@ -144,7 +147,7 @@ class WritingChallengesController < ApplicationController
 	private
 
 	def challenge_params
-  		params.require(:writing_challenge).permit(:exercise)
+  		params.require(:writing_challenge).permit(:exercise, :user_id)
 	end
 
 	COMMON_YEAR_DAYS_IN_MONTH = [nil, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
@@ -153,13 +156,6 @@ class WritingChallengesController < ApplicationController
 	   return 29 if month == 2 && Date.gregorian_leap?(year)
 	   COMMON_YEAR_DAYS_IN_MONTH[month]
 	end
-  
-    def set_todays_date
-  		if params[:date]
-  			@todays_date = params[:date] 
-  		else
-  			@todays_date = Date.today
-  		end
 
 	def set_todays_date
 		if params[:date]

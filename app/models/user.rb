@@ -66,7 +66,23 @@ class User < ActiveRecord::Base
       @user.responses << @response
     end
   end
-  
+
+  def words_since_signup
+    count = 0
+    self.responses.each { |response| count+= response.wordcount.to_i }
+    count
+  end
+
+  def words_this_month
+    count = 0
+    self.responses.where('extract(month from created_at) = ?', Time.now.month).each { |response| count+= response.wordcount.to_i }
+    count
+  end
+
+  def signup_date
+    self.created_at.localtime.strftime('%Y-%m-%d')
+  end
+
   private
     def add_profile
       self.build_profile(:daily_email_reminder => true, :daily_goal => 100)
