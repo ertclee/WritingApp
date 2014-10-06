@@ -106,9 +106,9 @@
             plotLines: [{
                 color: '#e8c1c1',
                 width: 2,
-                value: <%= raw @max_value_for_yaxis || 100 %>, // Need to set this probably as a var.
+                value: <%= raw @profile.daily_goal || 100 %>, // Need to set this probably as a var.
                 label: { 
-                  text: <%= raw @max_value_for_yaxis || 100 %> + ' words a day',
+                  text: <%= raw @profile.daily_goal || 100 %> + ' words a day',
                   align: 'right',
                   x: -10,
                   y: -1,
