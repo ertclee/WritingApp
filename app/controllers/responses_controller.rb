@@ -46,9 +46,8 @@ class ResponsesController < ApplicationController
   		@writing_challenge_title = @daily_challenge.exercise
 		# @profile = Profile.find_by user_id: current_user.id
 		@profile = Profile.find_by user_id: current_user.id
-
 		# @ip_address = local_ip
-	 #    @responses_with_no_writers = []
+	    # @responses_with_no_writers = []
 		# @responses = Response.all
 		# @responses.each do |response|
 		# 	if response.writer.nil? 
@@ -75,7 +74,7 @@ class ResponsesController < ApplicationController
 	def update
 		@response = Response.find(params[:id])
 		puts "Updated AT:"
-	  @response.updated_at
+	  	@response.updated_at
 		puts "end UpdatedAt printlog"
 		@writing_challenge_title = params[:writing_challenge_title]
 	  	if @response.update_attributes(response_params)

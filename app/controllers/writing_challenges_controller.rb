@@ -144,6 +144,7 @@ class WritingChallengesController < ApplicationController
 		@profile = Profile.find_by user_id: current_user.id
 		@max_value_for_yaxis = if @max_value_for_yaxis.to_i > @profile.daily_goal.to_i then @max_value_for_yaxis.to_i else @profile.daily_goal.to_i end
 		@max_value_for_yaxis += 10
+		
 	end
 
 	
@@ -154,7 +155,7 @@ class WritingChallengesController < ApplicationController
 	private
 
 	def challenge_params
-  		params.require(:writing_challenge).permit(:exercise, :user_id)
+  		params.require(:writing_challenge).permit(:exercise)
 	end
 
 	COMMON_YEAR_DAYS_IN_MONTH = [nil, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]

@@ -45,7 +45,9 @@ class User < ActiveRecord::Base
   def max_value_for_yaxis
     longest_response_count_so_far = 0
     longest_response_count_so_far = self.responses.max_by { |response| response.wordcount.to_i }
-    longest_response_count_so_far.wordcount
+    unless longest_response_count_so_far.nil?
+      longest_response_count_so_far.wordcount
+    end
   end
 
   def password_required?

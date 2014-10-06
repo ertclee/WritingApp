@@ -8,7 +8,7 @@
       <li><a href="/me/history" id="history">History</a>
       </li> 
 
-      <a href="#" data-toggle="tooltip" title="Submit a writing challenge!" class="tip-right">+</a>
+      <%= link_to '+', new_submit_writing_challenge_path, 'data-no-turbolink' => true, :data => { :toggle=> "tooltip" }, :class => "tip-right", :title => "Submit a new writing challenge!" %>
     </ul>
 
     <div class="right-menu">

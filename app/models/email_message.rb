@@ -7,7 +7,6 @@ class EmailMessage < ActiveRecord::Base
   end
 
   def self.delay_email
-    puts "does it enter the delay email?"
     t = Time.now
     @users = User.all
     @users.each do |user|
@@ -20,15 +19,13 @@ class EmailMessage < ActiveRecord::Base
       if mailers.present?
         puts "enters!!!!!!!"
         users = User.confirmed
-        mailers.each do |mailer|
-          
+        mailers.each do |mailer|   
           @profile = Profile.find_by user_id: user.id
           puts "enters user loop!"
           if @profile.daily_email_reminder
             puts "enters delay email"
             DailyMailer.send_mail(user.email, mailer.subject, mailer.message).deliver
-          end
-          
+          end     
         end
       end
     end
