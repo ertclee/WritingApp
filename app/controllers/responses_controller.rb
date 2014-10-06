@@ -44,7 +44,9 @@ class ResponsesController < ApplicationController
 		@daily_challenge = WritingChallenge.daily
 		#@challenge = @daily_challenge
   		@writing_challenge_title = @daily_challenge.exercise
+		# @profile = Profile.find_by user_id: current_user.id
 		@profile = Profile.find_by user_id: current_user.id
+
 		# @ip_address = local_ip
 	 #    @responses_with_no_writers = []
 		# @responses = Response.all
@@ -61,6 +63,7 @@ class ResponsesController < ApplicationController
     	if request.fullpath.match('/daily-challenge/edit')
     		@challenge = WritingChallenge.daily
     		@responses = current_user.responses
+    		@profile = Profile.find_by user_id: current_user.id
     		@responses.each do |response|
     			if response.writing_challenge_id == @challenge.id && response.writer == current_user.name
     				@response = response

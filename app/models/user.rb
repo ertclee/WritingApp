@@ -28,7 +28,8 @@ class User < ActiveRecord::Base
 
   def words_by_day(start_date)
     number_of_words = Hash.new
-    (start_date..start_date + 1.month).each { |d| number_of_words["#{d.strftime('%m-%d-%Y')}"] = 0 }
+    end_date = start_date + 1.month - 1.day
+    (start_date..end_date).each { |d| number_of_words["#{d.strftime('%m-%d-%Y')}"] = 0 }
     self.responses.each do |response| 
       unless number_of_words["#{response.time.to_date.strftime('%m-%d-%Y')}"].nil?
         number_of_words["#{response.time.to_date.strftime('%m-%d-%Y')}"] += response.wordcount.to_i

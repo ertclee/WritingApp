@@ -132,6 +132,7 @@ class WritingChallengesController < ApplicationController
 	# end
 
 	def history    
+		@current_date = Date.today
 		@start_date = Date.new(@todays_date.cwyear, @todays_date.mon, 1)
 		@signup_month_year = current_user.created_at.localtime.strftime("%B '%y")
 		@this_month = @start_date.strftime("%B '%y")

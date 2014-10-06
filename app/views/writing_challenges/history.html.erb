@@ -5,10 +5,14 @@
       <li>
         <%= link_to('Daily Challenge', daily_challenge_path, 'data-no-turbolink' => true, :style => "font-size: 18px; font-family: PTMono-Regular; font-size: 18px; text-decoration: underline; ") %>    
       </li>         
-      <li><a href="/history" id="history">History</a>
+      <li><a href="/me/history" id="history">History</a>
       </li> 
+
+      <a href="#" data-toggle="tooltip" title="Submit a writing challenge!" class="tip-right">+</a>
     </ul>
+
     <div class="right-menu">
+
       <%= render 'devise/menu/login_items' %>
     </div>
   </div>
@@ -19,7 +23,7 @@
 		<tbody class="page">
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
-    <div id="container" style="margin: 0; display: inline-block; margin-bottom: 35px;"></div>
+    <div id="container" style="margin: 0; display: inline-block; "></div>
       <span id="date-today"><%= @this_month %></span>
       <div id="words-since-signup">
         <%= current_user.words_since_signup %> 
@@ -32,11 +36,20 @@
           Words this month
         </span>
       </div>
-      <div style="margin-left:35%;">
+      <div style="margin-bottom: 10px">
         <% if @start_date.to_date > current_user.signup_date.to_date %>
-          <%=link_to "< Previous 30 days", "javascript:void(0);", :onclick=>"window.location = '/me/history?date=#{@start_date.beginning_of_month - 1.month}'"%>
-        <%end%>
+          <div class="row" style="text-align: center">
+            <%=link_to "< Previous 30 days", "javascript:void(0);", :onclick=>"window.location = '/me/history?date=#{@start_date.beginning_of_month - 1.month}'"%>
+            <span style="color: #C9C9C9;">| Next 30 days > </span>
+
+          </div>
+        <% elsif @start_date.mon + 1 == @current_date.mon %>
+          <div class="row" style="text-align: center">
+            <span style="color: #C9C9C9;">< Previous 30 days |</span>
+            <%=link_to "Next 30 days >", "javascript:void(0);", :onclick=>"window.location = '/me/history?date=#{@start_date.beginning_of_month + 1.month}'"%>
+          </div>
         
+        <%end%>
       </div>
 		  <%= render :partial => 'past_writing_challenges_i_completed' %>
 	</tbody>
@@ -44,7 +57,9 @@
 </div>
 
 <script>
-  
+  $(document).ready(function(){
+     $(".tip-right").tooltip({placement : 'right'});
+  });
   $(function () {
       $('#container').highcharts({
           chart: {
