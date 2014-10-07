@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-feature 'Sign up after response' do
+feature 'Sign up after saving a response' do
   before do
     @challenge = create(:writing_challenge)
     @user = build(:user)
   end
 
-  scenario 'Registered user see his response' do
+  scenario 'Registered user should see his response' do
     give_response('Response 1 from visitor')
     register
     confirm_account
