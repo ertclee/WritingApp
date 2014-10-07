@@ -44,9 +44,10 @@ class ResponsesController < ApplicationController
 		@daily_challenge = WritingChallenge.daily
 		#@challenge = @daily_challenge
   		@writing_challenge_title = @daily_challenge.exercise
+		# @profile = Profile.find_by user_id: current_user.id
 		@profile = Profile.find_by user_id: current_user.id
 		# @ip_address = local_ip
-	 #    @responses_with_no_writers = []
+	    # @responses_with_no_writers = []
 		# @responses = Response.all
 		# @responses.each do |response|
 		# 	if response.writer.nil? 
@@ -61,6 +62,7 @@ class ResponsesController < ApplicationController
     	if request.fullpath.match('/daily-challenge/edit')
     		@challenge = WritingChallenge.daily
     		@responses = current_user.responses
+    		@profile = Profile.find_by user_id: current_user.id
     		@responses.each do |response|
     			if response.writing_challenge_id == @challenge.id && response.writer == current_user.name
     				@response = response
@@ -68,7 +70,7 @@ class ResponsesController < ApplicationController
     		end
     	end
     end
-
+    
   def update
     @response = Response.find(params[:id])
     puts "Updated AT:"
@@ -116,6 +118,7 @@ class ResponsesController < ApplicationController
       end
       return @count
   end
+  
 	private
 	    def response_params
 	    	params.require(:response).permit(:response, :prompt_id, :user, :time, :writer, :wordcount, :writing_challenge_id, :slug)

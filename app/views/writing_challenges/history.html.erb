@@ -5,10 +5,14 @@
       <li>
         <%= link_to('Daily Challenge', daily_challenge_path, 'data-no-turbolink' => true, :style => "font-size: 18px; font-family: PTMono-Regular; font-size: 18px; text-decoration: underline; ") %>    
       </li>         
-      <li><a href="/history" id="history">History</a>
+      <li><a href="/me/history" id="history">History</a>
       </li> 
+
+      <%= link_to '+', new_submit_writing_challenge_path, 'data-no-turbolink' => true, :data => { :toggle=> "tooltip" }, :class => "tip-right", :title => "Submit a new writing challenge!" %>
     </ul>
+
     <div class="right-menu">
+
       <%= render 'devise/menu/login_items' %>
     </div>
   </div>
@@ -19,8 +23,8 @@
 		<tbody class="page">
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
-    <div id="container" style="margin: 0; display: inline-block; margin-bottom: 35px;"></div>
-      <span id="date-today"><%= @signup_month_year %></span>
+    <div id="container" style="margin: 0; display: inline-block; "></div>
+      <span id="date-today"><%= @this_month %></span>
       <div id="words-since-signup">
         <%= current_user.words_since_signup %> 
         <span id="words-since-letters">
@@ -32,11 +36,20 @@
           Words this month
         </span>
       </div>
-      <div style="margin-left:35%;">
+      <div style="margin-bottom: 10px">
         <% if @start_date.to_date > current_user.signup_date.to_date %>
-          <%=link_to "< Previous 30 days", "javascript:void(0);", :onclick=>"window.location = '/me/history?date=#{@start_date.beginning_of_month - 1.month}'"%>
-        <%end%>
+          <div class="row" style="text-align: center">
+            <%=link_to "< Previous 30 days", "javascript:void(0);", :onclick=>"window.location = '/me/history?date=#{@start_date.beginning_of_month - 1.month}'"%>
+            <span style="color: #C9C9C9;">| Next 30 days > </span>
+
+          </div>
+        <% elsif @start_date.mon + 1 == @current_date.mon %>
+          <div class="row" style="text-align: center">
+            <span style="color: #C9C9C9;">< Previous 30 days |</span>
+            <%=link_to "Next 30 days >", "javascript:void(0);", :onclick=>"window.location = '/me/history?date=#{@start_date.beginning_of_month + 1.month}'"%>
+          </div>
         
+        <%end%>
       </div>
 		  <%= render :partial => 'past_writing_challenges_i_completed' %>
 	</tbody>
@@ -44,7 +57,9 @@
 </div>
 
 <script>
-  
+  $(document).ready(function(){
+     $(".tip-right").tooltip({placement : 'right'});
+  });
   $(function () {
       $('#container').highcharts({
           chart: {
@@ -87,13 +102,13 @@
             title: {
               text: null
             },
-            max: <%= raw current_user.target_goal || 100 %>,
+            max: <%= raw @max_value_for_yaxis || 100 %>,
             plotLines: [{
                 color: '#e8c1c1',
                 width: 2,
-                value: <%= raw current_user.target_goal || 100 %>, // Need to set this probably as a var.
+                value: <%= raw @profile.daily_goal || 100 %>, // Need to set this probably as a var.
                 label: { 
-                  text: <%= raw current_user.target_goal || 100 %> + ' words a day',
+                  text: <%= raw @profile.daily_goal || 100 %> + ' words a day',
                   align: 'right',
                   x: -10,
                   y: -1,
@@ -116,11 +131,7 @@
           },
           tooltip: {
                 formatter: function() {
-                  var today = new Date();
-                  var mm = today.getMonth() + 1;
-                  var yyyy = today.getFullYear();
-                  today = mm + '/' + (parseInt(this.x) + 1) + '/' + yyyy; 
-                  return this.y + " words on " + today; 
+                  return this.y + " words on " + this.key; 
                 },
                 backgroundColor: '#BFD8F5',
                 borderColor: '#BFD8F5',

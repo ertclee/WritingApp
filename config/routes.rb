@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   end
   
   resources :profiles, only: [:index, :create, :new, :show, :update, :destroy]
-  
+  resources :submit_writing_challenges
   get "me/history", to: 'writing_challenges#history', as: :my_history
   get "me/profile", to: 'profiles#edit', as: :my_profile
   get "daily-challenge", to: 'responses#new', as: :daily_challenge
