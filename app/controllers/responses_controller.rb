@@ -69,21 +69,53 @@ class ResponsesController < ApplicationController
     	end
     end
 
-	def update
-		@response = Response.find(params[:id])
-		puts "Updated AT:"
-	  @response.updated_at
-		puts "end UpdatedAt printlog"
-		@writing_challenge_title = params[:writing_challenge_title]
-	  	if @response.update_attributes(response_params)
-	  		@response.update(:time => Date.today, :wordcount => @response.response.split.size)
-	  		flash[:success] = "Your Response was successfully updated!"
-	    	redirect_to edit_writing_challenge_response_path(@writing_challenge_title, @response)
-	  	else
-	    	render "edit"
-	  	end
-	end
-
+  def update
+    @response = Response.find(params[:id])
+    puts "Updated AT:"
+    puts @response.inspect
+    @oldresponse = @response.response
+    puts @oldresponse
+    puts "end UpdatedAt printlog"
+    @writing_challenge_title = params[:writing_challenge_title]
+    @difference = difftext @oldresponse, params[:response][:response]
+      if @response.update_attributes(response_params)
+        print "Response is created at: " + @response.created_at.strftime('%d-%m-%Y') + " : " + Date.today.strftime('%d-%m-%Y')
+        if @response.time.strftime('%d-%m-%Y') == Date.today.strftime('%d-%m-%Y')
+           @response.update(:time => Date.today, :wordcount => @response.response.split.size)
+        else
+           if @difference != 0
+              @response.update(:updated_at => Date.today)
+              @newedit = Edit.new :difference=>@difference, :response_id=>@response.id, :time => Date.today
+              @newedit.save
+           end
+           #@response.update(:time => Date.today, :wordcount => @response.response.split.size)       
+           #@response.update(:time => Date.today, :wordcount => @response.response.split.size + @difference)
+        end
+        flash[:success] = "Your Response was successfully updated!"
+        redirect_to edit_writing_challenge_response_path(@writing_challenge_title, @response)
+      else
+        render "edit"
+      end
+  end
+  
+  def difftext(oldtext, newtext)
+      @newtextarray = newtext.split
+      @oldtextarray = oldtext.split
+      @length = @oldtextarray.length
+      @count = 0
+      @index = 0
+      @newtextarray.each do |newword|
+        if @count < @length
+          if newword != @oldtextarray[@index]
+            @count += 1
+          end
+        else
+          @count += 1
+        end
+        @index += 1
+      end
+      return @count
+  end
 	private
 	    def response_params
 	    	params.require(:response).permit(:response, :prompt_id, :user, :time, :writer, :wordcount, :writing_challenge_id, :slug)
