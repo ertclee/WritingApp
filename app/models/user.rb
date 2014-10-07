@@ -25,17 +25,82 @@ class User < ActiveRecord::Base
     self.responses.where('extract(month from updated_at) = ?', Time.now.month).each { |response| count += response.wordcount.to_i }
     count
   end
+  
+  def words_for_day date
+    @wordcount = 0
+    @edits = edits_on_same_date date
+    @responses = responses_on_same_date date
+    @editcount = 0
+    @responsecount = 0
+    @edits.each do |edit|
+      @editcount += edit.difference
+    end
+    @responses.each do |response|
+      @responsecount += response.wordcount.to_i
+    end
+    @wordcount = @editcount + @responsecount
+    return @wordcount
+  end
 
+#REFACTOR
   def words_by_day(start_date)
     number_of_words = Hash.new
-    end_date = start_date + 1.month - 1.day
-    (start_date..end_date).each { |d| number_of_words["#{d.strftime('%m-%d-%Y')}"] = 0 }
-    self.responses.each do |response| 
-      unless number_of_words["#{response.time.to_date.strftime('%m-%d-%Y')}"].nil?
-        number_of_words["#{response.time.to_date.strftime('%m-%d-%Y')}"] += response.wordcount.to_i
+    already_calculated_edits = Hash.new
+    (start_date..start_date + 1.month).each { |d| number_of_words["#{d.strftime('%d-%m-%Y')}"] = words_for_day(d) }
+#    self.responses.each { |response|
+#      numedits = 0
+#      @edits = self.edits_on_same_date response.time
+#      @edits.each do |edit|
+#        print "STARTING EDIT SEARCH"
+#        if !already_calculated_edits.has_key?(edit.id)
+#          numedits += edit.difference
+#          already_calculated_edits[edit.id] = 1
+#        end
+#      end
+#      number_of_words["#{response.time.to_date.strftime('%d-%m-%Y')}"] += (response.wordcount.to_i + numedits)
+#    }
+    number_of_words
+  end
+  
+   def responses_on_same_date date
+    print "STARTIN SEARCH RESPONSES\n"
+    @responses = []
+    @allresponses = Response.all
+    if @allresponses == nil
+      return @responses
+    end
+    @allresponses.each do |response|
+      print "RESULT: " + response.inspect
+      if response.time != nil
+        if response.time.strftime('%d-%m-%Y') == date.strftime('%d-%m-%Y')
+          @responses.push(response)
+        end
       end
     end
-    number_of_words
+    print @responses.inspect
+    print "END FOUND ALL RESPONSES\n"
+    @responses
+  end
+  
+  
+  def edits_on_same_date date
+    print "STARTIN SEARCH\n"
+    @edits = []
+    @alledits = Edit.all
+    if @alledits == nil
+      return @edits
+    end
+    @alledits.each do |edit|
+      print "RESULT: " + edit.inspect
+      if edit.time != nil
+        if edit.time.strftime('%d-%m-%Y') == date.strftime('%d-%m-%Y')
+          @edits.push(edit)
+        end
+      end
+    end
+    print @edits.inspect
+    print "END FOUND ALL EDITS\n"
+    @edits
   end
 
   def signup_date

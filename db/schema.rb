@@ -65,6 +65,14 @@ ActiveRecord::Schema.define(version: 20141006071402) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
+  create_table "edits", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "difference"
+    t.integer  "response_id"
+    t.datetime "time"
+  end
+
   create_table "email_messages", force: true do |t|
     t.string   "subject"
     t.text     "message"
@@ -111,6 +119,8 @@ ActiveRecord::Schema.define(version: 20141006071402) do
     t.string   "exercise"
     t.string   "email"
   end
+
+  add_index "submit_writing_challenges", ["exercise"], name: "index_submit_writing_challenges_on_exercise", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
