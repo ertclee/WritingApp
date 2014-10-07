@@ -45,13 +45,16 @@ gem 'spring',        group: :development
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-# Use debugger
-# gem 'debugger', group: [:development, :test]
 gem 'rails_12factor', group: :production
 gem 'lazy_high_charts'
 gem 'activeadmin', github: 'gregbell/active_admin'
 gem 'whenever', require: false
+
 group :development, :test do
   gem 'rspec-rails'
   gem 'capybara'
+  gem 'email_spec'
+  gem 'factory_girl_rails'
+  gem 'launchy'
+  gem 'byebug'
 end
