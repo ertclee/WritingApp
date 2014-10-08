@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
     count
   end
   
-  def words_for_day date
+  def words_for_day(date)
     @wordcount = 0
     @edits = edits_on_same_date date
     @responses = responses_on_same_date date
@@ -42,27 +42,14 @@ class User < ActiveRecord::Base
     return @wordcount
   end
 
-#REFACTOR
+  # REFACTOR
   def words_by_day(start_date)
     number_of_words = Hash.new
-    already_calculated_edits = Hash.new
-    (start_date..start_date + 1.month).each { |d| number_of_words["#{d.strftime('%d-%m-%Y')}"] = words_for_day(d) }
-#    self.responses.each { |response|
-#      numedits = 0
-#      @edits = self.edits_on_same_date response.time
-#      @edits.each do |edit|
-#        print "STARTING EDIT SEARCH"
-#        if !already_calculated_edits.has_key?(edit.id)
-#          numedits += edit.difference
-#          already_calculated_edits[edit.id] = 1
-#        end
-#      end
-#      number_of_words["#{response.time.to_date.strftime('%d-%m-%Y')}"] += (response.wordcount.to_i + numedits)
-#    }
+    (start_date..(start_date + 1.month - 1.day)).each { |d| number_of_words["#{d.strftime('%m-%d-%Y')}"] = words_for_day(d) }
     number_of_words
   end
   
-   def responses_on_same_date date
+   def responses_on_same_date(date)
     print "STARTIN SEARCH RESPONSES\n"
     @responses = []
     @allresponses = Response.all
@@ -83,7 +70,7 @@ class User < ActiveRecord::Base
   end
   
   
-  def edits_on_same_date date
+  def edits_on_same_date(date)
     print "STARTIN SEARCH\n"
     @edits = []
     @alledits = Edit.all
@@ -146,28 +133,27 @@ class User < ActiveRecord::Base
     end
   end
 
-  private
-    def add_profile
-      self.build_profile(:daily_email_reminder => true, :daily_goal => 100)
+  def add_profile
+    self.build_profile(:daily_email_reminder => true, :daily_goal => 100)
+  end
+
+  require 'socket'
+  def local_ip
+    orig, Socket.do_not_reverse_lookup = Socket.do_not_reverse_lookup, true  # turn off reverse DNS resolution temporarily
+
+    UDPSocket.open do |s|
+      s.connect '64.233.187.99', 1
+      s.addr.last
     end
+  ensure
+    Socket.do_not_reverse_lookup = orig
+  end
 
-    require 'socket'
-    def local_ip
-      orig, Socket.do_not_reverse_lookup = Socket.do_not_reverse_lookup, true  # turn off reverse DNS resolution temporarily
-
-      UDPSocket.open do |s|
-        s.connect '64.233.187.99', 1
-        s.addr.last
-      end
-    ensure
-      Socket.do_not_reverse_lookup = orig
-    end
-
-    def find_response_with_matching_ip_address(responses, local_ip)
-      responses.each do |response|
-        if response.ip_address == local_ip
-          return response
-        end
+  def find_response_with_matching_ip_address(responses, local_ip)
+    responses.each do |response|
+      if response.ip_address == local_ip
+        return response
       end
     end
+  end
 end

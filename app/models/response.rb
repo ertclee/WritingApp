@@ -4,34 +4,15 @@ class Response < ActiveRecord::Base
 	belongs_to :user
 	has_many :edits
 
-	def edits
-	  @edits = Edit.where("response_id = ? ", self.id)
-	  return @edits
+	def compute_the_difference_score_between_two_strings(new_string)
+		@new_string_array = new_string.split
+		@old_string_array = self.response.split
+		@difference_count = 0
+		@new_string_array.each_with_index do |new_word, index|
+			if new_word != @old_string_array[index]
+			    @difference_count += 1
+			end
+		end
+		@difference_count
 	end
-	
-#	def find_latest_edits
-#	  @edits = self.my_edits
-#	  puts @edits
-#	  if @edits = nil?
-##	    return self.time
-#	  end
-#	  @sorted = @edits.sort { |x,y| x.time <=> y.time }
-#	  return @sorted[0].time
-#	end
-	
-	#REFACTOR
-	def edits_on_same_day
-	  @edits = []
-	  @alledits = Edit.all
-	  @alledits.each do |edit|
-	    print edit.inspect
-	    if edit.time != nil
-  	    if edit.time.strftime('%d-%m-%Y') == self.time.strftime('%d-%m-%Y')
-  	      @edits.push(edit)
-  	    end
-  	  end
-	  end
-	  @edits
-	end
-	
 end

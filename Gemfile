@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-
+gem 'timecop'
 gem 'friendly_id', '~> 5.0.0'
 gem 'browser-timezone-rails'
 gem 'paperclip'

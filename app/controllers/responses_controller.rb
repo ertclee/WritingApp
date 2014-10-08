@@ -14,7 +14,7 @@ class ResponsesController < ApplicationController
 			@profile = Profile.find_by user_id: current_user.id
 		end
 	end
-
+	# REFACTOR lines 30-37 
 	def create
 	    @challenge = WritingChallenge.where("slug = ? ", params[:writing_challenge_title])
 	    @challenge = @challenge[0]
@@ -42,20 +42,8 @@ class ResponsesController < ApplicationController
 
 	def edit
 		@daily_challenge = WritingChallenge.daily
-		#@challenge = @daily_challenge
   		@writing_challenge_title = @daily_challenge.exercise
-		# @profile = Profile.find_by user_id: current_user.id
 		@profile = Profile.find_by user_id: current_user.id
-		# @ip_address = local_ip
-	    # @responses_with_no_writers = []
-		# @responses = Response.all
-		# @responses.each do |response|
-		# 	if response.writer.nil? 
-		# 		@responses_with_no_writers.push(response)
-		# 	end
-		# end 
-		# @response = find_response_with_matching_ip_address(@responses_with_no_writers, @ip_address)
-		# puts @response.inspect
 	end
 
 	def edit_daily_challenge
@@ -71,57 +59,26 @@ class ResponsesController < ApplicationController
     	end
     end
     
-  def update
-    @response = Response.find(params[:id])
-    puts "Updated AT:"
-    puts @response.inspect
-    @oldresponse = @response.response
-    puts @oldresponse
-    puts "end UpdatedAt printlog"
-    @writing_challenge_title = params[:writing_challenge_title]
-    @difference = difftext @oldresponse, params[:response][:response]
-      if @response.update_attributes(response_params)
-        print "Response is created at: " + @response.created_at.strftime('%d-%m-%Y') + " : " + Date.today.strftime('%d-%m-%Y')
-        if @response.time.strftime('%d-%m-%Y') == Date.today.strftime('%d-%m-%Y')
-           @response.update(:time => Date.today, :wordcount => @response.response.split.size)
-        else
-           if @difference != 0
-              @response.update(:updated_at => Date.today)
-              @newedit = Edit.new :difference=>@difference, :response_id=>@response.id, :time => Date.today
-              @newedit.save
-           end
-           #@response.update(:time => Date.today, :wordcount => @response.response.split.size)       
-           #@response.update(:time => Date.today, :wordcount => @response.response.split.size + @difference)
-        end
-        flash[:success] = "Your Response was successfully updated!"
-        redirect_to edit_writing_challenge_response_path(@writing_challenge_title, @response)
-      else
-        render "edit"
-      end
-  end
-  
-  def difftext(oldtext, newtext)
-      @newtextarray = newtext.split
-      @oldtextarray = oldtext.split
-      @length = @oldtextarray.length
-      @count = 0
-      @index = 0
-      @newtextarray.each do |newword|
-        if @count < @length
-          if newword != @oldtextarray[@index]
-            @count += 1
-          end
-        else
-          @count += 1
-        end
-        @index += 1
-      end
-      return @count
-  end
+	def update
+		@response = Response.find(params[:id])
+		@writing_challenge_title = params[:writing_challenge_title]
+		@difference = @response.compute_the_difference_score_between_two_strings(params[:response][:response])
+		if @response.update_attributes(response_params)
+			@response.update_attributes(:time => Date.today, :wordcount => @response.response.split.size)
+			if @response.time.strftime('%d-%m-%Y') != Date.today.strftime('%d-%m-%Y') && @difference != 0
+				puts "enters in the edit part!!!!!!"
+			    @edit = Edit.create_new_edit_object(@difference, @response.id, Date.today)
+			end
+			flash[:success] = "Your Response was successfully updated!"
+			redirect_to edit_writing_challenge_response_path(@writing_challenge_title, @response)
+		else
+			render "edit"
+		end
+	end
   
 	private
 	    def response_params
-	    	params.require(:response).permit(:response, :prompt_id, :user, :time, :writer, :wordcount, :writing_challenge_id, :slug)
+	    	params.require(:response).permit(:response, :prompt_id, :user, :time, :writer, :wordcount, :writing_challenge_id, :slug, :updated_at)
 	    end
 
 	    def daily_challenge
