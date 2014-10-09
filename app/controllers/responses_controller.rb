@@ -62,12 +62,15 @@ class ResponsesController < ApplicationController
 	def update
 		@response = Response.find(params[:id])
 		@writing_challenge_title = params[:writing_challenge_title]
-		@difference = @response.compute_the_difference_score_between_two_strings(params[:response][:response])
+		@difference_score_for_new_response = @response.compute_the_difference_score_between_two_strings(params[:response][:response])[0]
+		@difference_score_for_old_response = @response.compute_the_difference_score_between_two_strings(params[:response][:response])[1]
+		puts "difference for old is ", @difference_score_for_old_response
 		if @response.update_attributes(response_params)
 			@response.update_attributes(:time => Date.today, :wordcount => @response.response.split.size)
-			if @response.time.strftime('%d-%m-%Y') != Date.today.strftime('%d-%m-%Y') && @difference != 0
-				puts "enters in the edit part!!!!!!"
-			    @edit = Edit.create_new_edit_object(@difference, @response.id, Date.today)
+			if @response.created_at.strftime('%d-%m-%Y') != Date.today.strftime('%d-%m-%Y') && @difference_score_for_new_response!= 0
+				puts 'difference is ', @difference_score_for_new_response
+			    @edit = Edit.new(:difference => @difference_score_for_new_response + @difference_score_for_old_response, :response_id => @response.id, :user_id => current_user.id, :time => Date.today)
+				@edit.save!
 			end
 			flash[:success] = "Your Response was successfully updated!"
 			redirect_to edit_writing_challenge_response_path(@writing_challenge_title, @response)

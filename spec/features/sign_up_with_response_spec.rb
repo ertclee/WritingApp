@@ -35,8 +35,8 @@ feature 'Edit a response on a different day' do
     fill_in 'response_response', with: 'edited response'
     click_button 'Update'
     visit my_history_path
-    # expect(page).to have_content ''
     save_and_open_page
+    # expect(page).to have_content '2 words on 10-08-2014'
   end
 end
 

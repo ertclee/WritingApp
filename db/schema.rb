@@ -11,12 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141006071402) do
+ActiveRecord::Schema.define(version: 20141009030917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "hstore"
-  enable_extension "uuid-ossp"
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -68,12 +66,13 @@ ActiveRecord::Schema.define(version: 20141006071402) do
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "edits", force: true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "difference"
-    t.integer  "response_id"
-    t.datetime "time"
+    t.integer "difference"
+    t.integer "response_id"
+    t.date    "time"
+    t.integer "user_id"
   end
+
+  add_index "edits", ["user_id", "response_id"], name: "index_edits_on_user_id_and_response_id", unique: true, using: :btree
 
   create_table "email_messages", force: true do |t|
     t.string   "subject"
@@ -153,6 +152,7 @@ ActiveRecord::Schema.define(version: 20141006071402) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "exercise"
+    t.integer  "user_id"
     t.string   "slug"
   end
 

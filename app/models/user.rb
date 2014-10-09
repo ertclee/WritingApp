@@ -26,68 +26,32 @@ class User < ActiveRecord::Base
     count
   end
   
-  def words_for_day(date)
+  def words_for_day(date, responses)
     @wordcount = 0
-    @edits = edits_on_same_date date
-    @responses = responses_on_same_date date
-    @editcount = 0
-    @responsecount = 0
-    @edits.each do |edit|
-      @editcount += edit.difference
+    responses.each do |response| 
+      if response.created_at.strftime('%d-%m-%Y') == date.strftime('%d-%m-%Y')
+        @wordcount += response.wordcount.to_i
+        @edit_for_response = Edit.where("response_id = ? AND user_id = ? ", response.id, 1)
+        if @edit_for_response.present? 
+          @wordcount -= @edit_for_response[0].difference
+        end
+      else
+        @current_user_id = 1 #replace this with current_user id
+        @edit_for_response = Edit.where("response_id = ? AND user_id = ? AND time = ?", response.id, 1, date.strftime("%Y-%m-%d"))
+        if @edit_for_response.present?
+          @wordcount += @edit_for_response[0].difference
+        end
+      end
     end
-    @responses.each do |response|
-      @responsecount += response.wordcount.to_i
-    end
-    @wordcount = @editcount + @responsecount
-    return @wordcount
+    @wordcount
   end
 
   # REFACTOR
   def words_by_day(start_date)
     number_of_words = Hash.new
-    (start_date..(start_date + 1.month - 1.day)).each { |d| number_of_words["#{d.strftime('%m-%d-%Y')}"] = words_for_day(d) }
+    @responses = Response.all
+    (start_date..(start_date + 1.month - 1.day)).each { |d| number_of_words["#{d.strftime('%m-%d-%Y')}"] = words_for_day(d, @responses) }
     number_of_words
-  end
-  
-   def responses_on_same_date(date)
-    print "STARTIN SEARCH RESPONSES\n"
-    @responses = []
-    @allresponses = Response.all
-    if @allresponses == nil
-      return @responses
-    end
-    @allresponses.each do |response|
-      print "RESULT: " + response.inspect
-      if response.time != nil
-        if response.time.strftime('%d-%m-%Y') == date.strftime('%d-%m-%Y')
-          @responses.push(response)
-        end
-      end
-    end
-    print @responses.inspect
-    print "END FOUND ALL RESPONSES\n"
-    @responses
-  end
-  
-  
-  def edits_on_same_date(date)
-    print "STARTIN SEARCH\n"
-    @edits = []
-    @alledits = Edit.all
-    if @alledits == nil
-      return @edits
-    end
-    @alledits.each do |edit|
-      print "RESULT: " + edit.inspect
-      if edit.time != nil
-        if edit.time.strftime('%d-%m-%Y') == date.strftime('%d-%m-%Y')
-          @edits.push(edit)
-        end
-      end
-    end
-    print @edits.inspect
-    print "END FOUND ALL EDITS\n"
-    @edits
   end
 
   def signup_date
@@ -132,7 +96,7 @@ class User < ActiveRecord::Base
       @user.responses << @response
     end
   end
-
+  private
   def add_profile
     self.build_profile(:daily_email_reminder => true, :daily_goal => 100)
   end
