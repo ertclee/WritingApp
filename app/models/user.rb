@@ -31,16 +31,17 @@ class User < ActiveRecord::Base
     responses.each do |response| 
       if response.created_at.strftime('%d-%m-%Y') == date.strftime('%d-%m-%Y')
         @wordcount += response.wordcount.to_i
-        @edit_for_response = Edit.where("response_id = ? AND user_id = ? ", response.id, 1)
-        if @edit_for_response.present? 
-          @wordcount -= @edit_for_response[0].difference
-        end
+        # @edit_for_response = Edit.where("response_id = ? AND user_id = ? ", response.id, 1)
+        # if @edit_for_response.present? 
+        #   @wordcount -= @edit_for_response[0].difference
+        # end
       else
-        @current_user_id = 1 #replace this with current_user id
-        @edit_for_response = Edit.where("response_id = ? AND user_id = ? AND time = ?", response.id, 1, date.strftime("%Y-%m-%d"))
-        if @edit_for_response.present?
-          @wordcount += @edit_for_response[0].difference
-        end
+        # @current_user_id = 1 #replace this with current_user id
+        # @edit_for_response = Edit.where("response_id = ? AND user_id = ? AND time = ?", response.id, 1, date.strftime("%Y-%m-%d"))
+        # puts @edit_for_response 
+        # if @edit_for_response
+        #   @wordcount += @edit_for_response[0].difference
+        # end
       end
     end
     @wordcount
