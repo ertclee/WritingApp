@@ -5,7 +5,7 @@
 					<% current_user.responses.each_with_index do |current_user_response, k| %>
 						<% if current_user_response.writer == current_user.name && res.id == current_user_response.id %>
 							<td style="border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; padding: 14px; width: 850px;">
-							<div style="color: #C9C9C9"><%= get_written_day(res) %>, <%= current_user_response.updated_at.strftime('%H:%M') %>, <%= res.wordcount %> words</div>
+							<div style="color: #C9C9C9"><%= get_written_day(res) %>, <%= current_user_response.updated_at.strftime('%H:%M') %>, <%= res.response.split.size %> words</div>
 								<%= link_to challenge.exercise, edit_writing_challenge_response_path(challenge, res), 'data-no-turbolink' => true, :class => 'exercise', :style => "text-decoration: underline;" %>
 							</td>
 						<% end %>
