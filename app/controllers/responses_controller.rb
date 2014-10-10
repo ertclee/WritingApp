@@ -59,25 +59,34 @@ class ResponsesController < ApplicationController
     	end
     end
     
-	def update
-		@response = Response.find(params[:id])
-		@writing_challenge_title = params[:writing_challenge_title]
-		@difference_score_for_new_response = @response.compute_the_difference_score_between_two_strings(params[:response][:response])[0]
-		@difference_score_for_old_response = @response.compute_the_difference_score_between_two_strings(params[:response][:response])[1]
-		puts "difference for old is ", @difference_score_for_old_response
-		if @response.update_attributes(response_params)
-			@response.update_attributes(:time => Date.today, :wordcount => @response.response.split.size)
-			if @response.created_at.strftime('%d-%m-%Y') != Date.today.strftime('%d-%m-%Y') && @difference_score_for_new_response!= 0
-				puts 'difference is ', @difference_score_for_new_response
-			    @edit = Edit.new(:difference => @difference_score_for_new_response + @difference_score_for_old_response, :response_id => @response.id, :user_id => current_user.id, :time => Date.today)
-				@edit.save!
-			end
-			flash[:success] = "Your Response was successfully updated!"
-			redirect_to edit_writing_challenge_response_path(@writing_challenge_title, @response)
-		else
-			render "edit"
-		end
-	end
+  def update
+    @response = Response.find(params[:id])
+    puts "Updated AT:"
+    puts @response.inspect
+    @oldresponse = @response.response
+    puts @oldresponse
+    puts "end UpdatedAt printlog"
+    @writing_challenge_title = params[:writing_challenge_title]
+    @difference = @response.compute_the_difference_score_between_two_strings params[:response][:response]
+      if @response.update_attributes(response_params)
+        print "Response is created at: " + @response.created_at.strftime('%d-%m-%Y') + " : " + Date.today.strftime('%d-%m-%Y')
+        if @response.time.strftime('%d-%m-%Y') == Date.today.strftime('%d-%m-%Y')
+           @response.update(:time => Date.today, :wordcount => @response.response.split.size)
+        else
+           if @difference != 0
+              @response.update(:updated_at => Date.today)
+              @newedit = Edit.new :difference=>@difference, :response_id=>@response.id, :time => Date.today, :user_id => current_user.id
+              @newedit.save!
+           end
+           #@response.update(:time => Date.today, :wordcount => @response.response.split.size)       
+           #@response.update(:time => Date.today, :wordcount => @response.response.split.size + @difference)
+        end
+        flash[:success] = "Your Response was successfully updated!"
+        redirect_to edit_writing_challenge_response_path(@writing_challenge_title, @response)
+      else
+        render "edit"
+      end
+  end
   
 	private
 	    def response_params

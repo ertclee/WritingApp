@@ -5,24 +5,29 @@ class Response < ActiveRecord::Base
 	has_many :edits
 
 	def compute_the_difference_score_between_two_strings(new_string)
-		@new_string_array = new_string.split
-		@old_string_array = self.response.split
-		@difference_count = 0
-		@original_word_count = 0
-		@new_string_array.each_with_index do |new_word, index|
-			if new_word != @old_string_array[index]
-			    @difference_count += 1
-			end
-		end
-		# This is to account for the deletion in the original response if the user is editing the response on a different date
-		@old_string_array.each_with_index do |old_word, index|
-			if @new_string_array[index].present?
-				if @new_string_array[index] != old_word
-					@original_word_count -= 1
-				end
-			end
-		end
-		[@difference_count, @original_word_count]
+	  oldstringarr = self.response.split
+	  newstringarr = new_string.split
+    m = newstringarr.length
+    n = oldstringarr.length
+    return m if n == 0
+    return n if m == 0
+    d = Array.new(m+1) {Array.new(n+1)}
+  
+    (0..m).each {|i| d[i][0] = i}
+    (0..n).each {|j| d[0][j] = j}
+    (1..n).each do |j|
+      (1..m).each do |i|
+        d[i][j] = if oldstringarr[i-1] == newstringarr[j-1]  # adjust index into string
+                    d[i-1][j-1]       # no operation required
+                  else
+                    [ d[i-1][j]+1,    # deletion
+                      d[i][j-1]+1,    # insertion
+                      d[i-1][j-1]+1,  # substitution
+                    ].min
+                  end
+      end
+    end
+    d[m][n]
 	end
 
 	def compute_word_count_with_edits(difference_score_for_new_word, difference_score_for_old_word)
