@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141009030917) do
+ActiveRecord::Schema.define(version: 20141009030743) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,8 +71,6 @@ ActiveRecord::Schema.define(version: 20141009030917) do
     t.date    "time"
     t.integer "user_id"
   end
-
-  add_index "edits", ["user_id", "response_id"], name: "index_edits_on_user_id_and_response_id", unique: true, using: :btree
 
   create_table "email_messages", force: true do |t|
     t.string   "subject"
