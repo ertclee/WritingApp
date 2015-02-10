@@ -1,0 +1,68 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Writing App</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application"%>
+  <%= csrf_meta_tags %>
+</head>
+
+<body>
+<header class="container-fluid">
+  <nav class="top-bar">
+  <ul class="title-area">
+    <li class="name">
+      <h1>
+        <a href="/welcome/index">Writing App</a>
+      </h1>
+    </li>
+  </ul>
+  <% if session[:authenticated_user].nil? %>
+    <ul class = "right">
+      <li class="has-form top-bar-item">
+        <form action="/welcome/show" method="get" id="inputform">
+          <div class="row collapse">
+            <div class="small-4 columns">
+              <input type="text" name="userid" placeholder="Username">
+            </div>
+            <div class="small-4 columns">
+              <input type="password" name="password" placeholder="Password">
+            </div>
+            <div class="small-3 columns">
+              <input type="submit" class="button" value="Login"></a>
+            </div>
+          </div>
+          <% if flash[:notice] == "Username not found" %>
+            <small class="error">Username Not Found</small>
+          <% elsif flash[:notice] == "Password was incorrect, please try again" %>
+            <small class="error">Password Incorrect</small>
+          <% end %>
+        </form>
+
+  <% else %>
+    <section class = "top-bar-section">
+      <ul class="left">
+        <li class = "top-bar-item">
+          <%= link_to "Logout", logout_path, method: :post %>
+    </li>
+      </ul>
+    </section>
+  <% end %>
+</nav>
+</header>
+
+<div class = "footer">
+
+<%= yield %>
+ <%= javascript_include_tag "application" %>
+  <footer class = "row">
+    <div class = "large-12 columns">
+
+    </div>
+  </footer>
+</div>
+</body>
+</html>
