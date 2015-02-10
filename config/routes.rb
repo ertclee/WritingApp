@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
+  
   root to: "responses#index" #{}"responses#new", :writing_challenge_id => '3'
   get 'writing-challenges/new', to: 'writing_challenges#new'
   resources :writing_challenges , :path => 'writing-challenges', param: :title do
